@@ -1,0 +1,40 @@
+@(settings_form: Form[Settings])
+@main("Settings") {
+    <h1>Settings</h1>
+
+    <div id="settings">
+    @helper.form(action = routes.Application.registerValidation(), 'id -> "settings"){
+
+        <fieldset>
+            @helper.inputText(
+                settings_form("name"),
+                '_label -> "Change name",
+                '_showConstraints -> false
+            )
+            @helper.inputText(
+                settings_form("email"),
+                '_label -> "Change email",
+                '_showConstraints -> false
+            )
+            @helper.inputText(
+                settings_form("adress"),
+                '_label -> "Change adress",
+                '_showConstraints -> false
+            )
+            @helper.inputText(
+                settings_form("pageName"),
+                '_label -> "Change pagename",
+                '_showConstraints -> false
+            )
+
+            @helper.inputPassword(
+                settings_form("confirm_password"),
+                '_label -> "Confirm Password",
+                '_showConstraints -> false
+            )
+        </fieldset>
+        <button type="submit" class="btn btn-primary btn-default">Submit</button>
+    }
+
+    </div>
+}

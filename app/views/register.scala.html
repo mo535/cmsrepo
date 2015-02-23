@@ -1,0 +1,43 @@
+@(filled_form: Form[User])
+@main("Register") {
+    <h1>Register account</h1>
+    <div id="register">
+    @helper.form(action = routes.Application.registerValidation(), 'id -> "register"){
+
+        <fieldset>
+            @helper.inputText(
+                filled_form("firstName"),
+                '_label -> "First name",
+                '_showConstraints -> false
+            )
+            @helper.inputText(
+                filled_form("lastName"),
+                '_label -> "Last name",
+                '_showConstraints -> false
+            )
+            @helper.inputText(
+                filled_form("email"),
+                '_label -> "Email",
+                '_showConstraints -> false
+            )
+            @helper.inputText(
+                filled_form("confirm_email"),
+                '_label -> "Confirm email",
+                '_showConstraints -> false
+            )
+            @helper.inputPassword(
+                filled_form("password"),
+                '_label -> "Password",
+                '_showConstraints -> false
+            )
+            @helper.inputPassword(
+                filled_form("confirm_password"),
+                '_label -> "Confirm Password",
+                '_showConstraints -> false
+            )
+        </fieldset>
+        <button type="submit" class="btn btn-primary btn-default">Submit</button>
+    }
+
+    </div>
+}
