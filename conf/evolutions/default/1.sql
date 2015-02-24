@@ -7,7 +7,8 @@ create table page (
   id                        bigint auto_increment not null,
   is_active                 tinyint(1) default 0,
   page_name                 varchar(255),
-  create_date               datetime,
+  created_by_id             bigint,
+  createdate                datetime,
   constraint pk_page primary key (id))
 ;
 
@@ -31,6 +32,8 @@ create table user (
   constraint pk_user primary key (id))
 ;
 
+alter table page add constraint fk_page_createdBy_1 foreign key (created_by_id) references user (id) on delete restrict on update restrict;
+create index ix_page_createdBy_1 on page (created_by_id);
 
 
 

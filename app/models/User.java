@@ -15,32 +15,14 @@ import java.util.List;
 @Entity
 public class User extends Model {
 
-    @Id
-    @GeneratedValue
-    public long id;
-    @Constraints.Required
-    public String email;
-    @Constraints.Required
-    public String password;
-    public boolean isActive;
-    @Column(name="firstname")
-    public String firstName;
-    @Column(name="lastname")
-    public String lastName;
-
-    @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name="createdate")
-    public Date createDate;
-
-    public User(String firstName, String lastName, String email, String password, boolean isActive){
+    public User(String firstName, String lastName, String email,
+                String password, boolean isActive){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.isActive = isActive;
     }
-
-    public static Model.Finder<String, User> find = new Model.Finder<>(String.class, User.class);
 
     /**
      * Authenticate a User.
@@ -52,6 +34,11 @@ public class User extends Model {
                 .findUnique();
     }
 
+    /**
+     * Find user
+     */
+    public static Model.Finder<String,
+            User> find = new Model.Finder<>(String.class, User.class);
     /**
      * Retrive all users
      */
@@ -66,6 +53,35 @@ public class User extends Model {
     public static User findByEmail(String email) {
         return find.where().eq("email", email).findUnique();
     }
+
+    public void save() {
+        this.createDate = new Date();
+        super.save();
+    }
+
+    @Id
+    @GeneratedValue
+    public long id;
+
+    @Constraints.Required
+    public String email;
+
+    @Constraints.Required
+    public String password;
+
+    public boolean isActive;
+
+    @Column(name="firstname")
+    public String firstName;
+
+    @Column(name="lastname")
+    public String lastName;
+
+
+    @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name="createdate")
+    public Date createDate;
+
 }
 
 

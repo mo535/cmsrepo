@@ -17,7 +17,6 @@
         <title>@title</title>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
-        <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -30,39 +29,67 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
+
                     <a class="navbar-brand" href="home">CMS</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
+
                         <li><a href="home">Home</a></li>
                         <li><a href="settings">Settings</a></li>
                         <li><a href="page">Pages</a></li>
+                        @if(session.get("mail")) {
+                        <li>
+                            <p class="navbar-btn">
+                                <a href="logout" class="btn btn-primary btn-default">Logga ut</a>
+                            </p>
+                        </li>
+                        } else {
+                            <li>
+                                <p class="navbar-btn">
+                                    <a href="login" class="btn btn-primary btn-default">Logga in</a>
+                                </p>
+                            </li>
+                        }
+
                     </ul>
+                    <div class="col-sm-3 col-md-3 pull-right">
+                        <form class="navbar-form" role="search">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search" name="search" id="search">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div><!--/.nav-collapse -->
             </div>
         </div>
         <div style="padding:20px">
         </div>
+
         <div class="container">
             <div class="starter-template">
                 <div class="lead">
                 @content
                 </div>
+
+                @if(session.get("mail")) {
+                    Inloggad som:
+                    <h4>@session.get("mail")</h4>
+                } else {
+                    Ej inloggad
+                    <dd>
+                    <a href="register"><b>Registrera konto</b></a>
+                    </dd>
+                }
             </div>
-
-            <dl id="email">
-                <dt>User</dt>
-                <dd>
-                    <a href="@routes.Application.logout()">Logout</a>
-                </dd>
-            </dl>
-
         </div><!-- /.container -->
         <!-- Bootstrap core JavaScript
     ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script
-        src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="@routes.Assets.at("javascripts/bootstrap.min.js")"></script>
     </body>
 </html>

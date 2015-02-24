@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Page;
 import models.Settings;
 import models.User;
 import play.Logger;
@@ -9,6 +10,7 @@ import play.data.validation.Constraints;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
+
 import static play.data.Form.form;
 
 
@@ -28,13 +30,54 @@ public class Application extends Controller {
     }
 
     public static Result page() {
-        return ok(page.render("Page"));
+        return ok(page.render(form(Page.class).bindFromRequest()));
     }
 
 
     public static Result register() {
         return ok(register.render(form(User.class).bindFromRequest()));
     }
+
+    public static Result search() {
+        if (request().method().equals("GET")){
+            User.findByEmail("email");
+        }
+
+        return redirect(routes.Application.search());
+    }
+
+    /**
+     * Validate page
+     * @return new page
+     */
+    public static Result pageValid() {
+        if (request().method().equals("POST")) {
+            Form<Page> page_form = new Form<>(Page.class).bindFromRequest();
+
+            if (page_form.field("pageName").value().isEmpty()) {
+                page_form.reject("pageName", "Enter a page name");
+            }
+
+
+            if (page_form.hasErrors()) {
+                return badRequest(page.render(page_form));
+            } else {
+                Page newPage = new Page(page_form.get().pageName,
+                        page_form.get().isActive);
+
+                newPage.setCreatedBy(
+                        User.findByEmail(session().get("mail")));
+
+                Logger.error("new page: " + newPage.toString());
+                newPage.save();
+
+                return ok(page.render(form(Page.class).bindFromRequest()));
+            }
+        } else{
+                return ok(index.render() + "Page created");
+            }
+        }
+
     /**
      * register validation
      * @return info or new user
@@ -49,8 +92,8 @@ public class Application extends Controller {
                     filled_form.reject("confirm_password", "Password don't match");
                 }
             }
-            if (!filled_form.field("email").valueOr("").isEmpty()){
-                if (!filled_form.field("email").valueOr("").equals
+            if (filled_form.field("email").valueOr("").isEmpty()){
+                if (filled_form.field("email").valueOr("").equals
                         (filled_form.field("confirm_email").value())) {
                     filled_form.reject("confirm_email", "Emails don't match");
                 }
@@ -66,7 +109,7 @@ public class Application extends Controller {
 
                 Logger.error("new user: " + newUser.toString());
                 newUser.save();
-                return ok(index.render() + "You have been registered, u can now sign in!");
+                return ok(login.render(form(Login.class).bindFromRequest()));
             }
         }else {
             return ok(register.render(form(User.class)));
@@ -94,13 +137,17 @@ public class Application extends Controller {
             session().clear();
             session("mail", loginForm.get().mail);
             session("password", loginForm.get().password);
-            return redirect(routes.Application.settings());
+            return redirect(routes.Application.page());
         }
     }
     public static Result login() {
         return ok(login.render(Form.form(Login.class).bindFromRequest()));
     }
 
+    /**
+     * Logout method
+     * @return direct to login page
+     */
     public static Result logout() {
         session().clear();
         flash("success", "You've been logged out");

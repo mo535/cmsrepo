@@ -1,29 +1,53 @@
 package models;
 
 import play.data.format.Formats;
+import play.data.validation.Constraints;
+import play.db.ebean.Model;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Page {
-
-    @Id
-    @GeneratedValue
-    public long id;
-    public boolean isActive;
-
-    public String pageName;
+public class Page extends Model{
 
     public Page(String pageName, boolean isActive){
         this.pageName = pageName;
         this.isActive = isActive;
     }
 
-    @OneToMany
-    @Column(name="createdby")
-    public User createdBy;
+    public User getCreatedBy() {
+        return createdBy;
+    }
 
-    @Formats.DateTime(pattern="dd/MM/yyyy")
-    public Date createDate = new Date();
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    /**
+     * Set default data while saving
+     */
+    public void save() {
+        this.createDate = new Date();
+        super.save();
+    }
+
+    public static Model.Finder<String,
+            Page> find = new Model.Finder<>(String.class, Page.class);
+
+    @Id
+    @GeneratedValue
+    public long id;
+
+    public boolean isActive;
+
+    public String pageName;
+
+    @ManyToOne
+    @Column(name="createdby")
+    private User createdBy;
+
+
+    @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
+    @Column(name="createdate")
+    public Date createDate;
 }

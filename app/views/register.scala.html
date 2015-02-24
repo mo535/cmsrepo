@@ -1,43 +1,40 @@
 @(filled_form: Form[User])
 @main("Register") {
-    <h1>Register account</h1>
+    <h2>Register account</h2>
     <div id="register">
     @helper.form(action = routes.Application.registerValidation(), 'id -> "register"){
 
-        <fieldset>
-            @helper.inputText(
-                filled_form("firstName"),
-                '_label -> "First name",
-                '_showConstraints -> false
-            )
-            @helper.inputText(
-                filled_form("lastName"),
-                '_label -> "Last name",
-                '_showConstraints -> false
-            )
-            @helper.inputText(
-                filled_form("email"),
-                '_label -> "Email",
-                '_showConstraints -> false
-            )
-            @helper.inputText(
-                filled_form("confirm_email"),
-                '_label -> "Confirm email",
-                '_showConstraints -> false
-            )
-            @helper.inputPassword(
-                filled_form("password"),
-                '_label -> "Password",
-                '_showConstraints -> false
-            )
-            @helper.inputPassword(
-                filled_form("confirm_password"),
-                '_label -> "Confirm Password",
-                '_showConstraints -> false
-            )
-        </fieldset>
-        <button type="submit" class="btn btn-primary btn-default">Submit</button>
-    }
+        @if(filled_form.hasGlobalErrors) {
+            <p class="error">@filled_form.globalError.message</p>
+        }
+        <p>
+            <input type="text" name="firstName" placeholder="First name" value="@filled_form("firstName").value">
+        </p>
 
+        <p>
+            <input type="text" name="lastName" placeholder="Last name" value="@filled_form("lastName").value">
+        </p>
+
+        <p>
+            <input type="email" name="email" placeholder="Email" value="@filled_form("email").value">
+        </p>
+
+        <p>
+            <input type="email" name="confirm_email" placeholder="Confirm Email" value="@filled_form("email").value">
+        </p>
+
+        <p>
+            <input type="password" name="password" placeholder="Password" value="@filled_form("password").value">
+        </p>
+        <p>
+            <input type="password" name="confirm_password" placeholder="Confirm Password" value="@filled_form("password").value">
+        </p>
+        <p>
+            <button type="submit"  class="btn btn-primary btn-default">Register</button>
+        </p>
+
+}
     </div>
+
+
 }
