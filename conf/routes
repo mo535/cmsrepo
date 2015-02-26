@@ -14,8 +14,8 @@ GET         /page                controllers.Application.page()
 POST        /page                controllers.Application.pageValid()
 GET         /register            controllers.Application.register()
 POST        /register            controllers.Application.registerValidation()
-POST        /search              controllers.Application.search()
 GET         /search              controllers.Application.search()
+POST        /search              controllers.Application.searchMethod()
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file        controllers.Assets.at(path="/public", file)

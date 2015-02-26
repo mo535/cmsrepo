@@ -8,7 +8,6 @@
             @helper.inputText(
                 page_form("pageName"),
                 '_label -> "Page name",
-                '_help -> "This field is required",
                 '_showConstraints -> false
             )
             @helper.checkbox(
@@ -18,7 +17,9 @@
                 '_showConstraints->false
             )
         </fieldset>
+
         <button type="submit" class="btn btn-primary btn-default">Create page</button>
     }
     </div>
+
 }

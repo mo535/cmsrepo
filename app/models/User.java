@@ -5,10 +5,7 @@ import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +14,7 @@ public class User extends Model {
 
     public User(String firstName, String lastName, String email,
                 String password, boolean isActive){
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -37,8 +35,8 @@ public class User extends Model {
     /**
      * Find user
      */
-    public static Model.Finder<String,
-            User> find = new Model.Finder<>(String.class, User.class);
+    public static Model.Finder
+            <String, User> find = new Model.Finder<>(String.class, User.class);
     /**
      * Retrive all users
      */

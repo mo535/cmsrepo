@@ -10,6 +10,7 @@ import play.data.validation.Constraints;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
+import java.util.List;
 
 import static play.data.Form.form;
 
@@ -17,7 +18,7 @@ import static play.data.Form.form;
 public class Application extends Controller {
 
     /**
-     *
+     * Homepage
      * @return index page
      */
     public static Result index() {
@@ -33,17 +34,33 @@ public class Application extends Controller {
         return ok(page.render(form(Page.class).bindFromRequest()));
     }
 
-
     public static Result register() {
         return ok(register.render(form(User.class).bindFromRequest()));
     }
 
     public static Result search() {
-        if (request().method().equals("GET")){
-            User.findByEmail("email");
-        }
+        return ok(index.render());
+    }
 
-        return redirect(routes.Application.search());
+    /**
+     * Search user by firstname
+     * @return User info
+     */
+    public static Result searchMethod() {
+
+        if (request().method().equals("POST")) {
+            DynamicForm searchForm = form().bindFromRequest();
+            if (searchForm.hasErrors()) {
+                return badRequest(search.render(User.findAll()));
+            } else {
+                    List<User> users = User.find
+                            .where().eq("firstName", searchForm.get("search")).findList();
+
+                Logger.error("new search: " + users.toString());
+                return ok(search.render(users));
+            }
+        }
+        return null;
     }
 
     /**
@@ -55,9 +72,8 @@ public class Application extends Controller {
             Form<Page> page_form = new Form<>(Page.class).bindFromRequest();
 
             if (page_form.field("pageName").value().isEmpty()) {
-                page_form.reject("pageName", "Enter a page name");
+                page_form.reject("pageName", "Page name cannot be empty!");
             }
-
 
             if (page_form.hasErrors()) {
                 return badRequest(page.render(page_form));
@@ -84,28 +100,28 @@ public class Application extends Controller {
      */
     public static Result registerValidation() {
         if (request().method().equals("POST")) {
-            Form<User> filled_form = new Form<>(User.class).bindFromRequest();
+            Form<User> regForm = new Form<>(User.class).bindFromRequest();
 
-            if(!filled_form.field("password").valueOr("").isEmpty()) {
-                if(!filled_form.field("password").valueOr
-                        ("").equals(filled_form.field("confirm_password").value())) {
-                    filled_form.reject("confirm_password", "Password don't match");
+            if(!regForm.field("password").valueOr("").isEmpty()) {
+                if(!regForm.field("password").valueOr
+                        ("").equals(regForm.field("confirm_password").value())) {
+                    regForm.reject("confirm_password", "Password don't match");
                 }
             }
-            if (filled_form.field("email").valueOr("").isEmpty()){
-                if (filled_form.field("email").valueOr("").equals
-                        (filled_form.field("confirm_email").value())) {
-                    filled_form.reject("confirm_email", "Emails don't match");
+            if (regForm.field("email").valueOr("").isEmpty()){
+                if (regForm.field("email").valueOr("").equals
+                        (regForm.field("confirm_email").value())) {
+                    regForm.reject("confirm_email", "Emails don't match");
                 }
             }
-            if (filled_form.hasErrors()) {
-                return badRequest(register.render(filled_form));
+            if (regForm.hasErrors()) {
+                return badRequest(register.render(regForm));
             } else {
-                User newUser = new User(filled_form.get().firstName,
-                        filled_form.get().lastName,
-                        filled_form.get().email,
-                        filled_form.get().password,
-                        filled_form.get().isActive);
+                User newUser = new User(regForm.get().firstName,
+                        regForm.get().lastName,
+                        regForm.get().email,
+                        regForm.get().password,
+                        regForm.get().isActive);
 
                 Logger.error("new user: " + newUser.toString());
                 newUser.save();

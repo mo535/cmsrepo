@@ -1,3 +1,13 @@
-@main("Search") {
+@(users: List[models.User])
 
+@main("Search") {
+    <header>
+        <h2>Users found:</h2>
+    </header>
+
+    <section>
+    @for(user <- users){
+        <p>@user.firstName @user.lastName (@user.email)</p>
+    }
+    </section>
 }

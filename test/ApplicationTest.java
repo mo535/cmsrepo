@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import models.User;
 import org.junit.*;
 
 import play.mvc.*;
@@ -35,11 +36,17 @@ public class ApplicationTest {
     }
 
     @Test
-    public void renderTemplate() {
-        Content html = views.html.index.render("Your new application is ready.");
-        assertThat(contentType(html)).isEqualTo("text/html");
-        assertThat(contentAsString(html)).contains("Your new application is ready.");
+    public void createAndRetrieveUser() {
+        // Create a new user and save it
+        new User("bob", "bobson", "bob@gmail.com", "secret", true).save();
+
+        // Retrieve the user with email address bob@gmail.com
+        User bob = User.findByEmail("bob@gmail.com");
+
+
     }
+
+
 
 
 }
