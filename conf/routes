@@ -3,19 +3,21 @@
 # ~~~~
 
 # Home page
-GET         /                    controllers.Application.index()
-GET         /home                controllers.Application.index()
-GET         /login               controllers.Application.login()
-POST        /login               controllers.Application.authenticate()
-GET         /logout              controllers.Application.logout()
-GET         /welcome             controllers.Application.welcome
-GET         /settings            controllers.Application.settings
-GET         /page                controllers.Application.page()
-POST        /page                controllers.Application.pageValid()
-GET         /register            controllers.Application.register()
-POST        /register            controllers.Application.registerValidation()
-GET         /search              controllers.Application.search()
-POST        /search              controllers.Application.searchMethod()
+GET         /                       controllers.Application.index()
+GET         /home                   controllers.Application.index()
+GET         /login                  controllers.Usercontroller.login()
+POST        /login                  controllers.Usercontroller.authenticate()
+GET         /logout                 controllers.Usercontroller.logout()
+GET         /settings               controllers.Application.settings
+POST        /updateSettings         controllers.Settingscontroller.updateSettings()
+GET         /pages                  controllers.Pagecontroller.pages()
+POST        /page                   controllers.Pagecontroller.createPage()
+GET         /register               controllers.Application.register()
+POST        /register               controllers.Usercontroller.registerValidation()
+POST        /search                 controllers.Application.search()
+GET         /search                 controllers.Application.searchFunction()
+GET         /contact                controllers.Application.contact()
+POST        /Page/:id/delete        controllers.Pagecontroller.deletePage(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file        controllers.Assets.at(path="/public", file)
+GET         /assets/*file           controllers.Assets.at(path="/public", file)

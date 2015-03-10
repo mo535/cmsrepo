@@ -51,11 +51,22 @@ public class User extends Model {
     public static User findByEmail(String email) {
         return find.where().eq("email", email).findUnique();
     }
+    public static User findByLastname(String lastName){
+        return find.where().eq("lastName", lastName).findUnique();
+    }
+    public static User findByFirstname(String firstName){
+        return find.where().eq("firstName", firstName).findUnique();
+    }
 
     public void save() {
         this.createDate = new Date();
         super.save();
     }
+
+    public long getId() {
+        return id;
+    }
+
 
     @Id
     @GeneratedValue

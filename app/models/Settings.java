@@ -1,10 +1,12 @@
 package models;
 
 
+import play.db.ebean.Model;
+
 import javax.persistence.*;
 
 @Entity
-public class Settings {
+public class Settings extends Model{
     @Id
     @GeneratedValue
     public Long id;

@@ -3,37 +3,40 @@
 @main("Settings") {
     <h2>Settings</h2>
     <div id="settings">
-    @helper.form(action = routes.Application.settings(), 'id -> "settings"){
+    @helper.form(action = routes.Settingscontroller.updateSettings()){
 
-        <fieldset>
-            @helper.inputText(
-                settings_form("name"),
-                '_label -> "Change name",
-                '_showConstraints -> false
-            )
-            @helper.inputText(
-                settings_form("email"),
-                '_label -> "Change email",
-                '_showConstraints -> false
-            )
-            @helper.inputText(
-                settings_form("adress"),
-                '_label -> "Change adress",
-                '_showConstraints -> false
-            )
-            @helper.inputText(
-                settings_form("pageName"),
-                '_label -> "Change pagename",
-                '_showConstraints -> false
-            )
+        <form role="form">
+            <div class="row">
+                <div class="form-group col-xs-4 col-lg-3">
+                    <label for="firstName"><small>Firstname: </small></label>
+                    <input type="text" class="form-control" name="firstName"
+                    placeholder="Firstname" value="@settings_form("firstName").value">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-4 col-lg-3">
+                    <label for="lastName"><small>Lastname: </small></label>
+                    <input type="text" class="form-control" name="lastName"
+                    placeholder="Lastname" value="@settings_form("lastName").value">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-4 col-lg-3">
+                    <label for="password"><small>Password: </small></label>
+                    <input type="password" class="form-control" name="password"
+                    placeholder="Password" value="@settings_form("password").value">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-4 col-lg-3">
+                    <label for="confirm_password"><small>Confirm Password: </small></label>
+                    <input type="password" class="form-control" name="confirm_password"
+                    placeholder="Password" value="@settings_form("password").value">
+                </div>
+            </div>
 
-            @helper.inputPassword(
-                settings_form("confirm_password"),
-                '_label -> "Confirm Password",
-                '_showConstraints -> false
-            )
-        </fieldset>
-        <button type="submit" class="btn btn-primary btn-default">Submit</button>
+            <button type="submit"  class="btn btn-primary">Submit changes</button>
+        </form>
     }
 
     </div>

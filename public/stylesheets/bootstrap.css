@@ -2705,8 +2705,9 @@ select[multiple].form-group-lg .form-control {
   }
   .form-inline .radio input[type="radio"],
   .form-inline .checkbox input[type="checkbox"] {
-    position: relative;
-    margin-left: 0;
+      float: left;
+      margin-right: 5px;
+      margin-left: 5px;
   }
   .form-inline .has-feedback .form-control-feedback {
     top: 0;

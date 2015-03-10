@@ -1,28 +1,35 @@
-@(form: Form[Application.Login])
+@(loginForm: Form[Usercontroller.Login])
 
 @main("Login") {
-    @helper.form(routes.Application.authenticate()) {
-        <h1>Sign in</h1>
+    @helper.form(routes.Usercontroller.authenticate()) {
 
-        @if(form.hasGlobalErrors) {
-            <p class="error">@form.globalError.message</p>
-        }
 
-        <form class="form-inline">
-            <div class="form-group">
-                <label class="sr-only" for="mail">Email address</label>
+
+
+        <form role="form">
+            <div class="row">
+                <div class="form-group-lg col-xs-4 col-lg-3">
+                    <h2 class="form-signin-heading">Please sign in</h2>
+               <label for="email"> Email</label>
+                <input type="email" class="form-control" name="mail"
+                placeholder="Enter Email" value="@loginForm("mail").value">
             </div>
-
-            <input type="email" name="mail" placeholder="Email" value="@form("mail").value">
-            <div class="form-group">
-
-                <label class="sr-only" for="password">Password</label>
-                <input type="password" name="password" placeholder="Password" value="@form("password").value">
             </div>
-
-            <button type="submit"  class="btn btn-primary btn-default">Sign in</button>
+            <div class="row">
+                <div class="form-group-lg col-xs-4 col-lg-3">
+                    <label for="password"> Password</label>
+                <input type="password" class="form-control" name="password"
+                placeholder="Enter Password" value="@loginForm("password").value">
+            </div>
+            </div>
+            <div class="inline">
+                <label><input value="remember-me" type="checkbox"><small>Remember me</small></label>
+            </div>
+            <button type="submit"  class="btn btn-lg btn-primary">Sign in</button>
         </form>
+    }
+    @if(loginForm.hasGlobalErrors) {
+       <h4><p class="error"><strong>@loginForm.globalError.message</strong></p></h4>
     }
 
 }
-

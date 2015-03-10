@@ -5,6 +5,7 @@ import play.db.ebean.Model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Page extends Model{
@@ -30,12 +31,25 @@ public class Page extends Model{
         super.save();
     }
 
-    public static Model.Finder<String,
-            Page> find = new Model.Finder<>(String.class, Page.class);
+    public static void delete(Long id){
+        find.ref(id).delete();
+
+    }
+
+    public static List<Page> all() {
+        return find.all();
+    }
+
+    public static Model.Finder<Long,
+            Page> find = new Model.Finder<>(Long.class, Page.class);
+
+    public Long getId() {
+        return id;
+    }
 
     @Id
     @GeneratedValue
-    public long id;
+    public Long id;
 
     public boolean isActive;
 

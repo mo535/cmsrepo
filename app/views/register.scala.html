@@ -1,49 +1,63 @@
 @(regForm: Form[User])
 @main("Register") {
+    <div class="container">
     <h2>Register account</h2>
     <div id="register">
-    @helper.form(action = routes.Application.registerValidation(), 'id -> "register"){
+    @helper.form(action = routes.Usercontroller.registerValidation()){
 
         @if(regForm.hasGlobalErrors) {
             <p class="error">@regForm.globalError.message</p>
         }
 
-        <fieldset>
-            @helper.inputText(
-                regForm("firstName"),
-                '_label -> "First name",
-                '_showConstraints -> false
-            )
-            @helper.inputText(
-                regForm("lastName"),
-                '_label -> "Last name",
-                '_showConstraints -> false
-            )
-            @helper.inputText(
-                regForm("email"),
-                '_label -> "Email",
-                '_showConstraints -> false
-            )
-            @helper.inputText(
-                regForm("confirm_email"),
-                '_label -> "Confirm email",
-                '_showConstraints -> false
-            )
-            @helper.inputPassword(
-                regForm("password"),
-                '_label -> "Password",
-                '_showConstraints -> false
-            )
-            @helper.inputPassword(
-                regForm("confirm_password"),
-                '_label -> "Confirm Password",
-                '_showConstraints -> false
-            )
-        </fieldset>
-        <button type="submit" class="btn btn-primary btn-default">Submit</button>
+        <form role="form">
+            <div class="row">
+                <div class="form-group col-xs-4 col-lg-3">
+                    <label for="firstName"><small>Firstname: </small></label>
+                    <input type="text" class="form-control" name="firstName"
+                    placeholder="Firstname" value="@regForm("firstName").value">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-4 col-lg-3">
+                    <label for="lastName"><small>Lastname: </small></label>
+                    <input type="text" class="form-control" name="lastName"
+                    placeholder="Lastname" value="@regForm("lastName").value">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-4 col-lg-3">
+                    <label for="email"><small>Email: </small></label>
+                    <input type="email" class="form-control" name="email"
+                    placeholder="Email" value="@regForm("email").value">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-4 col-lg-3">
+                    <label for="confirm_email"><small>Confirm Email: </small></label>
+                    <input type="email" class="form-control" name="confirm_email"
+                    placeholder="Email" value="@regForm("email").value">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-4 col-lg-3">
+                    <label for="password"><small>Password: </small></label>
+                    <input type="password" class="form-control" name="password"
+                    placeholder="Password" value="@regForm("password").value">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-4 col-lg-3">
+                    <label for="confirm_password"><small>Confirm Password: </small></label>
+                    <input type="password" class="form-control" name="confirm_password"
+                    placeholder="Password" value="@regForm("password").value">
+                </div>
+            </div>
+
+            <button type="submit"  class="btn btn-primary">Create account</button>
+        </form>
     }
 
     </div>
 
-
+    </div>
 }
