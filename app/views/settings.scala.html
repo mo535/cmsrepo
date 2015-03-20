@@ -1,43 +1,95 @@
-@(settings_form: Form[Settings])
+@(settings_form: Form[models.User],pass_form:Form[models.User], user: User)
 
 @main("Settings") {
+    <div class="page-header text-center">
     <h2>Settings</h2>
-    <div id="settings">
-    @helper.form(action = routes.Settingscontroller.updateSettings()){
-
-        <form role="form">
-            <div class="row">
-                <div class="form-group col-xs-4 col-lg-3">
-                    <label for="firstName"><small>Firstname: </small></label>
-                    <input type="text" class="form-control" name="firstName"
-                    placeholder="Firstname" value="@settings_form("firstName").value">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-4 col-lg-3">
-                    <label for="lastName"><small>Lastname: </small></label>
-                    <input type="text" class="form-control" name="lastName"
-                    placeholder="Lastname" value="@settings_form("lastName").value">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-4 col-lg-3">
-                    <label for="password"><small>Password: </small></label>
-                    <input type="password" class="form-control" name="password"
-                    placeholder="Password" value="@settings_form("password").value">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-4 col-lg-3">
-                    <label for="confirm_password"><small>Confirm Password: </small></label>
-                    <input type="password" class="form-control" name="confirm_password"
-                    placeholder="Password" value="@settings_form("password").value">
-                </div>
-            </div>
-
-            <button type="submit"  class="btn btn-primary">Submit changes</button>
-        </form>
-    }
-
     </div>
+    <div class="tabbable">
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active"><a href="#one" data-toggle="tab">Name</a></li>
+            <li><a href="#two" data-toggle="tab"><strong>Password</strong></a></li>
+            <li><a href="#twee" data-toggle="tab">Something more</a></li>
+        </ul>
+        @helper.form(action = routes.Settingscontroller.updateName(user.getId)){
+        <div class="tab-content">
+            <div class="tab-pane active" id="one">
+
+
+                <form class="form-inline" role="form">
+                    <div class="row-fluid">
+                        <div class="form-group col-xs-4 col-lg-3">
+                            <label for="firstName">Firstname:</label>
+                            <input type="text" class="form-control" name="firstName"
+                            placeholder="Firstname" value="@settings_form("firstName").value">
+
+                            <label for="lastName">Lastname:</label>
+                            <input type="text" class="form-control" name="lastName"
+                            placeholder="Lastname" value="@settings_form("lastName").value"><br>
+                            <button type="submit" id="namebtn" class="btn btn-info">Submit changes</button>
+                            }
+
+        @if(settings_form.hasGlobalErrors) {
+            <h4><strong><p class="error">@settings_form.globalError.message</p></strong></h4>
+        }
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <h4>Current name: </h4>
+                    <strong> @user.firstName @user.lastName </strong>
+                </div>
+            </div>
+
+
+
+            <div class="tab-pane" id="two">
+            @helper.form(action = routes.Settingscontroller.updatePass(user.id)){
+                <form class="form-inline" role="form">
+                    <div class="row-fluid">
+                        <div class="form-group col-xs-4 col-lg-3">
+                            <label for="current_password">Current Password:</label>
+                            <input type="password" class="form-control" name="current_password"
+                            placeholder="Current Password" value="@pass_form("password").value">
+
+                                <label for="password">Password:</label>
+                                <input type="password" class="form-control" name="password"
+                                placeholder="Password" value="@pass_form("password").value">
+
+                            <label for="confirm_email">Confirm Password:</label>
+                            <input type="password" class="form-control" name="confirm_password"
+                            placeholder="Confirm Password" value="@pass_form("password").value">
+                                <br>
+                                <button type="submit" id="passbtn" class="btn btn-info">Submit changes</button>
+                            }
+                @if(pass_form.hasGlobalErrors) {
+                    <h4><strong><p class="error">@pass_form.globalError.message</p></strong></h4>
+                }
+                @if(flash.contains("success")) {
+                    <p class="success"><h4><strong>@flash.get("success")
+                    </strong></h4></p>
+                }
+
+                            </div>
+                    </div>
+                </form>
+
+                <div class="row">
+                    <h4>Current pw: </h4>
+                    <strong> @user.password </strong>
+                </div>
+            </div>
+
+            <div class="tab-pane" id="twee">Some content</div>
+        </div>
+    </div>
+
+    <script>
+    jQuery(document).ready(function ($) {
+    $('.nav-tabs a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+    });
+    });
+    </script>
+
 }

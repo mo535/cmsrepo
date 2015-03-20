@@ -1,63 +1,96 @@
 @(regForm: Form[User])
 @main("Register") {
-    <div class="container">
-    <h2>Register account</h2>
-    <div id="register">
+    <style>
+    body {
+    padding-top: 100px;
+    }
+    </style>
+
+
     @helper.form(action = routes.Usercontroller.registerValidation()){
 
+
+        <div class="row centered-form">
+            <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="text-center">Please sign up</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                        <input type="text" class="form-control"  name="firstName"
+                                        placeholder="Firstname" value="@regForm("firstName").value">
+                                    </div>
+                                </div>
+                                    </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                        <input type="text" class="form-control" name="lastName"
+                                        placeholder="Lastname" value="@regForm("lastName").value">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                                        <input type="email" class="form-control" name="email"
+                                        placeholder="Email" value="@regForm("email").value">
+                                    </div>
+                                        <p class="help-block" style="color: red">*required field</p>
+                                </div>
+                                    </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                                        <input type="email" class="form-control" name="confirm_email"
+                                        placeholder="Confirm Email" value="@regForm("confirm_email").value">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                                        <input type="password" class="form-control" name="password"
+                                        placeholder="Password" value="@regForm("password").value">
+                                    </div>
+                                        <p class="help-block" style="color: red">*required field</p>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                                        <input type="password" class="form-control" name="confirm_password"
+                                        placeholder="Confirm Password" value="@regForm("confirm_password").value">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit"  class="btn btn-info btn-block">Create account</button>
+                        </form>
+                    </div>
+                </div>
+                }
         @if(regForm.hasGlobalErrors) {
-            <p class="error">@regForm.globalError.message</p>
+            <div class="alert alert-danger col-lg-12 text-center" role="alert">
+                <h4><strong><p class="error">@regForm.globalError.message</p></strong></h4>
+            </div>
         }
-
-        <form role="form">
-            <div class="row">
-                <div class="form-group col-xs-4 col-lg-3">
-                    <label for="firstName"><small>Firstname: </small></label>
-                    <input type="text" class="form-control" name="firstName"
-                    placeholder="Firstname" value="@regForm("firstName").value">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-4 col-lg-3">
-                    <label for="lastName"><small>Lastname: </small></label>
-                    <input type="text" class="form-control" name="lastName"
-                    placeholder="Lastname" value="@regForm("lastName").value">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-4 col-lg-3">
-                    <label for="email"><small>Email: </small></label>
-                    <input type="email" class="form-control" name="email"
-                    placeholder="Email" value="@regForm("email").value">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-4 col-lg-3">
-                    <label for="confirm_email"><small>Confirm Email: </small></label>
-                    <input type="email" class="form-control" name="confirm_email"
-                    placeholder="Email" value="@regForm("email").value">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-4 col-lg-3">
-                    <label for="password"><small>Password: </small></label>
-                    <input type="password" class="form-control" name="password"
-                    placeholder="Password" value="@regForm("password").value">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-4 col-lg-3">
-                    <label for="confirm_password"><small>Confirm Password: </small></label>
-                    <input type="password" class="form-control" name="confirm_password"
-                    placeholder="Password" value="@regForm("password").value">
-                </div>
-            </div>
-
-            <button type="submit"  class="btn btn-primary">Create account</button>
-        </form>
-    }
-
-    </div>
-
-    </div>
+</div>
+</div>
 }

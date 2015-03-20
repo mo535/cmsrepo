@@ -1,4 +1,4 @@
-@()
+@(pages: List[Page], users: List[User])
 
     @main("Index") {
 
@@ -28,8 +28,10 @@
     }
     </style>
 
-<div class="row">
 
+<div class="row col-lg-9">
+<br>
+    <br>
     <div id="carousel-example-generic" class="carousel slide carousel-fade" data-ride="carousel">
             <!-- Indicators -->
         <ol class="carousel-indicators">
@@ -52,6 +54,7 @@
                     Fint hus
                 </div>
             </div>
+
             <div class="item">
                 <img src="@routes.Assets.at("images/hus3.jpg")" alt="...">
                 <div class="carousel-caption">
@@ -70,5 +73,22 @@
         </a>
     </div>
 </div>
+        <br>
+        <br>
+        <div class="col-lg-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <p class="text-center"><strong>@pages.size Page(s)</strong></p>
+                    </div>
+
+            @for(page <- pages) {
+                <li class="list-group-item">
+               <p> <strong>@page.pageName.toUpperCase</strong> </p>
+                    Created by: <strong><a href="/profile">@page.getCreatedBy.firstName</a></strong> on  @page.createDate
+                </li>
+            }
+            </div>
+        </div>
+
 
     }

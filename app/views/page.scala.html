@@ -1,60 +1,57 @@
-@(pages: List[models.Page], pageForm: Form[Page])
+@(pages: List[models.Page], pageForm: Form[models.Page])
 @import helper._
 @main("Page") {
-    <h2>New page</h2>
-    @if(pageForm.hasGlobalErrors) {
-        <p class="error">@pageForm.globalError.message</p>
-    }
-
+    <div class="page-header">
+    <h2>Mina sidor</h2>
+        </div>
 
     @form(routes.Pagecontroller.createPage()) {
-    <div id="page">
-        <form role="form" method="POST">
         <div class="row">
-            <div class="form-group col-lg-3 col-xs-4">
-                <label for="pageName">Page name</label>
-
-
-                <input type="text" class="form-control" name="pageName"
+            <div class="col-lg-6">
+    <div id="page">
+        <h4>Create new page</h4>
+        <form role="form" method="POST">
+            <div class="form-group">
+                <input type="text" class="form-control" required="" name="pageName"
                 placeholder="Page name" value="@pageForm("pageName").value">
-                <div class="inline">
-                    <label>Publish page
-                    <input type="checkbox" id="isActive" name="isActive" value="1">
+
+                @if(pageForm.hasGlobalErrors) {
+                    <h4><strong><p class="error">@pageForm.globalError.message</p></strong></h4>
+                }
+                <div class="checkbox">
+                        <label><input type="checkbox" name="isActive" value="1"><strong>Publish page</strong>
                     </label>
                 </div>
-                <button type="submit"  class="btn btn-primary">Create page</button>
+                <button type="submit" class="btn btn-info">Create page</button>
             </div>
-        </div>
         </form>
+        </div>
     </div>
         }
+        <div class="col-lg-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
 
-
-    <div class="row">
-
-            @if(session.get("mail")) {
-                <h3>You have: @pages.size page(s)</h3>
+            @if(pages.size > 0) {
+                <h4>You have: @pages.size page(s)</h4>
+                </div>
                 <ul>
+
         @for(page <- pages) {
             <li>
                 <strong>Name: </strong>
                 @page.pageName
                 <strong> Active: </strong>
                 @page.isActive
-                @page.getCreatedBy
                 @form(routes.Pagecontroller.deletePage(page.id)) {
-                    <input type="submit" value="Delete" class="btn btn-danger">
+                    <input type="submit" value="Delete" class="btn btn-danger btn-xs">
                 }
-
             </li>
-        }
-                </ul>
-
-
+        }</ul>
         } else {
-        <h3>No page</h3>
-
-
+        <h3>You have no page(s)</h3>
     }
+                </div>
         </div>
+</div>
 }

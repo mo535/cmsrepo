@@ -2,7 +2,6 @@ package models;
 
 import play.data.format.Formats;
 import play.db.ebean.Model;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -33,12 +32,23 @@ public class Page extends Model{
 
     public static void delete(Long id){
         find.ref(id).delete();
-
     }
 
     public static List<Page> all() {
         return find.all();
     }
+
+    /***
+     * Find page creator
+     * @param user id
+     * @return Page creator
+     */
+    public static List<Page> findOwner(String user) {
+        return find.fetch("createdBy").where()
+                .eq("email", user)
+                .findList();
+    }
+
 
     public static Model.Finder<Long,
             Page> find = new Model.Finder<>(Long.class, Page.class);
@@ -57,8 +67,7 @@ public class Page extends Model{
 
     @ManyToOne
     @Column(name="createdby")
-    private User createdBy;
-
+    public User createdBy;
 
     @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name="createdate")

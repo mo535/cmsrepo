@@ -1,8 +1,58 @@
+
 @main("Contact") {
 
     <div class="page-header">
-        <h1>Contact page <small>small text</small></h1>
+        <h2>Contact page <small>small text</small></h2>
     </div>
+
+<h1>Comming soon</h1>
+
+    <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a href="#home">Home</a></li>
+        <li><a href="#profile">Profile</a></li>
+        <li><a href="#messages">Messages</a></li>
+        <li><a href="#settings">Settings</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="home">home</div>
+        <div class="tab-pane" id="profile">
+
+            <form class="form-inline" role="form">
+                <div class="row-fluid">
+                    <div class="form-group col-xs-4 col-lg-3">
+                        <label for="current_password">Current Password:</label>
+                        <input type="password" class="form-control" name="current_password"
+                        placeholder="Current Password" value="1">
+
+                        <br>
+                        <button type="submit" id="passbtn" class="btn btn-info">Submit changes</button>
+                        </div>
+                    </div>
+                    </form>
+
+        </div>
+        <div class="tab-pane" id="messages">messages</div>
+        <div class="tab-pane" id="settings">settings</div>
+    </div>
+
+    <script src="@routes.Assets.at("javascripts/jquery-2.1.3.min.js")"></script>
+    <script src="@routes.Assets.at("javascripts/bootstrap.min.js")"></script>
+
+    <script>
+    $(document).ready(function() {
+    if(location.hash) {
+    $('a[href=' + location.hash + ']').tab('show');
+    }
+    $(document.body).on("click", "a[data-toggle]", function(event) {
+    location.hash = this.getAttribute("href");
+    });
+    });
+    $(window).on('popstate', function() {
+    var anchor = location.hash || $("a[data-toggle=tab]").first().attr("href");
+    $('a[href=' + anchor + ']').tab('show');
+    });
+    </script>
 
 
 }

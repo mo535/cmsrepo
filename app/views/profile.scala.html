@@ -1,0 +1,48 @@
+@(user: User)
+@main("Profile"){
+<div class="page-header text-center"><h2>Profile</h2></div>
+
+<div class="container">
+    <div class="span3">
+        <center>
+            <a href="#aboutModal" data-toggle="modal" data-target="#myModal"><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle"></a>
+            <h3>@user.firstName @user.lastName</h3>
+            <em>click my face for more</em>
+        </center>
+    </div>
+        <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title" id="myModalLabel">More About @user.firstName</h4>
+                </div>
+                <div class="modal-body">
+                    <center>
+                        <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
+                        <h3 class="media-heading">@user.firstName @user.lastName <small></small></h3>
+                        <span><strong>Pages: </strong></span>
+                        <span class="label label-info"></span>
+                    </center>
+                    <hr>
+                    <center>
+                        <p class="text-left"><strong>Fullname: </strong><br>
+                          @user.firstName @user.lastName</p>
+                        <p class="text-left"><strong>Email: </strong><br>
+                         @user.email
+                        <p class="text-left"><strong>Joined: </strong><br>
+                            @user.createDate</p>
+                        <br>
+                    </center>
+                </div>
+                <div class="modal-footer">
+                    <center>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">I've heard enough about @user.firstName</button>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

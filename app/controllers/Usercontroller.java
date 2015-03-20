@@ -4,6 +4,7 @@ import models.User;
 import play.Logger;
 import play.data.Form;
 import play.data.validation.Constraints;
+import play.data.validation.ValidationError;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.login;
@@ -20,7 +21,7 @@ public class Usercontroller extends Controller {
 
     public static Result logout() {
         session().clear();
-        String message = flash("You've been logged out");
+        flash("success", "You've been logged out");
         return redirect(routes.Usercontroller.login());
     }
 
@@ -29,23 +30,25 @@ public class Usercontroller extends Controller {
      * @return info or new user
      */
     public static Result registerValidation() {
-        if (request().method().equals("POST")) {
-            Form<User> regForm = new Form<>(User.class).bindFromRequest();
+            Form<User> regForm = form(User.class).bindFromRequest();
 
-            if(!regForm.field("password").valueOr("").isEmpty()) {
-                if(!regForm.field("password").valueOr
-                        ("").equals(regForm.field("confirm_password").value())) {
-                    regForm.reject("Password don't match");
+        if (regForm.field("email").valueOr("").isEmpty() ||
+                regForm.field("confirm_email").valueOr("").isEmpty()) {
+            regForm.reject("Email field cannot be empty");
+        }
+            if (!regForm.field("email").valueOr("").equals
+                    (regForm.field("confirm_email").value())) {
+                regForm.reject("Emails don't match");
+            }
 
-                }
+        if(regForm.field("password").valueOr("").isEmpty() ||
+                regForm.field("confirm_password").valueOr("").isEmpty()) {
+            regForm.reject("Password field cannot be empty");
+        }
+            if (!regForm.field("password").value().equals(regForm.field("confirm_password").value())) {
+                regForm.reject("Passwords don't match");
             }
-            if (!regForm.field("email").valueOr("").isEmpty()){
-                if (!regForm.field("email").valueOr("").equals
-                        (regForm.field("confirm_email").value())) {
-                    regForm.reject("Emails don't match");
-                }
-            }
-            if (regForm.hasErrors()) {
+        if (regForm.hasGlobalErrors()) {
                 return badRequest(register.render(regForm));
             } else {
                 User newUser = new User(regForm.get().firstName,
@@ -56,11 +59,9 @@ public class Usercontroller extends Controller {
 
                 Logger.error("new user: " + newUser.toString());
                 newUser.save();
+                flash("success", "User created, you can now sign in!");
                 return ok(login.render(form(Login.class).bindFromRequest()));
             }
-        }else {
-            return ok(register.render(form(User.class)));
-        }
     }
     /** Loginform validate login
      *
@@ -72,7 +73,7 @@ public class Usercontroller extends Controller {
 
         if(loginForm.field("mail").value().equals("") ||
                 loginForm.field("password").value().equals("")) {
-            loginForm.reject("Empty field");
+                loginForm.reject("All the fields must be filled in!");
         }
 
         if (loginForm.hasErrors()) {
@@ -81,7 +82,7 @@ public class Usercontroller extends Controller {
             session().clear();
             session("mail", loginForm.get().mail);
             session("password", loginForm.get().password);
-            return redirect(routes.Application.index());
+            return redirect(routes.Pagecontroller.pages());
         }
     }
 
@@ -97,7 +98,7 @@ public class Usercontroller extends Controller {
 
         public String validate() {
             if (User.authenticate(mail, password) == null) {
-                return "Wrong email or password!";
+                return "Oh no! Wrong combination of email/password!";
             }
             return null;
         }
