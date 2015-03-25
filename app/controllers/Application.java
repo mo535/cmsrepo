@@ -27,7 +27,7 @@ public class Application extends Controller {
 
     @Security.Authenticated(Secured.class)
     public static Result settings() {
-        return ok(settings.render(form(User.class).bindFromRequest(), form(User.class).bindFromRequest(), User.findByEmail(session().get("mail"))));
+        return ok(settings.render(form(User.class).bindFromRequest(), form(User.class).bindFromRequest(), form(User.class).bindFromRequest(), User.findByEmail(session().get("mail"))));
     }
 
     public static Result register() {
@@ -42,7 +42,18 @@ public class Application extends Controller {
         return ok(contact.render());
     }
 
-    public static Result profile(){
+    public static Result estates() {
+        return ok(estates.render());
+    }
+
+    public static Result profile(Long user){
+
+
+
+        return ok(profile.render(User.findEM.byId(user)));
+    }
+
+    public static Result myProfile(){
         return ok(profile.render(User.findByEmail(session().get("mail"))));
     }
 

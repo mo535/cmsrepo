@@ -9,6 +9,7 @@
         <title>@title</title>
             <!-- Bootstrap core CSS -->
         <link href="@routes.Assets.at("stylesheets/bootstrap.min.css")" rel="stylesheet">
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/bootstrap-switch.min.css")">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <style>
         .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse  .navbar-nav > li > a:focus {
@@ -21,18 +22,13 @@
         background-color:#ffffff;
             color: dodgerblue;
         }
-        .dropdown-menu { min-width: 250px }
-        footer {
-        width:100%;
-        height:50px;
-        background-color:#ffffff;
-        background-attachment: scroll;
-        background-position: 0% 0%;
-        position: fixed;
-        bottom: 0pt;
-        left: 0pt;
+
+
+        body {
+        padding-top: 20px;
+        margin-bottom: 50px;
+            height: auto!important;
         }
-        body { padding-top: 20px; }
         .help-inline  { color:#953333!important; }
         input:out-of-range { border:2px solid red; }
         </style>
@@ -52,7 +48,7 @@
                         <span class="icon-bar"></span>
                     </button>
 
-                    <a class="navbar-brand" href="/home"><strong>PROJECT</strong></a>
+                    <a class="navbar-brand" style="color:deepskyblue" href="/home"><strong>PROJECT</strong></a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -60,18 +56,41 @@
                         <li><a href="/home">Home</a></li>
                         <li><a href="/pages">Pages</a></li>
                         <li><a href="/contact">Contact</a></li>
-                        </ul>
+                        <li>
+                            <a href="#nav-collapse3" id="dLabel1" data-toggle="collapse"  aria-expanded="false" aria-controls="nav-collapse3">Search</a>
+                        </li>
+                    </ul>
+                    <div class="collapse nav navbar-nav nav-collapse" id="nav-collapse3">
+                        <form class="navbar-form navbar-right" role="search" method="GET" id="searchForm"
+                        action="@routes.Application.searchFunction()" name="searchForm">
+                            <div class="input-group">
+                                <input type="text" class="form-control"
+                                placeholder="Search" name="search" id="search" >
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </div>
+                                </div>
+
+
+
+
+
+                        </form>
+                    </div>
+
                     @if(session.get("mail")) {
                         <ul class="nav navbar-nav navbar-right">
                         <li><a href="/logout"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <i class="glyphicon glyphicon-user"></i> <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="/profile">Profil</a></li>
-                                    <li><a href="/settings">Inställningar</a></li>
-                                    <li><a href="/pages">Mina sidor</a></li>
+                                    <li><a href="/myProfile"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
+                                    <li><a href="/settings"><i class="glyphicon glyphicon-cog"></i> Inställningar</a></li>
+                                    <li><a href="/pages"><i class="glyphicon glyphicon-list-alt"></i> Mina sidor</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="#">Separated link</a></li>
+                                    <li><a href="/logout"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -82,27 +101,6 @@
                         </ul>
                     }
 
-
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" id="dLabel" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
-                            <ul class="dropdown-menu" style="padding:12px;">
-                            <form class="form-inline" method="GET" id="searchForm"
-                        action="@routes.Application.searchFunction()" name="searchForm">
-                            <div class="input-group">
-                                <input type="text" class="form-control"
-                                placeholder="Search" name="search" id="search">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-default" type="submit">
-                                        <i class="glyphicon glyphicon-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                            </ul>
-                        </li>
-                    </ul>
-
                 </div> <!--/.nav-collapse -->
             </div>
         </div>
@@ -111,29 +109,26 @@
 
         <div class="container">
                 @content
-
             <br>
+                <nav class="navbar navbar-inverse navbar-fixed-bottom">
+                    <div class="container">
 
-            <div class="col-lg-12">
-
-                @if(session.get("mail")) {
-                    <Strong>Inloggad som:</Strong>
-                    <h4>@session.get("mail")</h4>
-                } else {
-                    <Strong>Ej inloggad</Strong>
-                    <dd>
-                        <a href="register"><b>Registrera konto</b></a>
-                    </dd>
-                }
-
-            </div>
-
-            <footer>
-                <div class="container">
                 <p class="pull-right"><a href="#"><i class="fa fa-angle-up"></i></a></p>
-                <p class="text-muted">© 2015 PREK AB <a href="http://www.prek.se">PREK.se</a></p>
-                </div>
-            </footer>
+
+                <p class="text-muted pull-left">© 2015 PREK AB <a href="http://www.prek.se">Prek.se</a></p>
+
+                        <p class="text-center">
+
+                    @if(session.get("mail")) {
+
+                       <strong> Signed in as: <a href="/myProfile"> (@session.get("mail")) </a></strong>
+                    } else {
+                        <Strong>Ej inloggad: <a href="register">Registrera konto</a></Strong>
+
+                    }
+                        </p>
+                    </div>
+                </nav>
         </div>
             <!-- /.container -->
         <!-- Bootstrap core JavaScript
@@ -141,11 +136,11 @@
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="@routes.Assets.at("javascripts/jquery-2.1.3.min.js")"></script>
         <script src="@routes.Assets.at("javascripts/bootstrap.min.js")"></script>
-
+        <script src="@routes.Assets.at("javascripts/bootstrap-switch.min.js")"></script>
         <script>
-        $("#dLabel").on('click', function(){
+        $("#dLabel1").on('click', function(){
         console.log("FIRE");
-        var x = setTimeout('$("#search").focus()', 0);
+        var x = setTimeout('$("#search").focus()', 355);
         });
         </script>
     </body>

@@ -24,7 +24,7 @@ public class Pagecontroller extends Controller {
                 filled_form.reject("Page name cannot be empty!");
             }
             if (filled_form.hasErrors()) {
-                return badRequest(page.render(Page.findOwner(session().get("mail")), filled_form));
+                return badRequest(page.render(Page.findOwner(session().get("mail")), filled_form,Page.find.findUnique()));
             } else {
                 Page newPage = new Page(filled_form.get().pageName,
                         filled_form.get().isActive);
@@ -45,8 +45,15 @@ public class Pagecontroller extends Controller {
         return redirect(routes.Pagecontroller.pages());
     }
 
+    public static Result updateName(Long id) {
+        Page.rename(id, "");
+        return redirect(routes.Pagecontroller.pages());
+    }
+
     @Security.Authenticated(Secured.class)
     public static Result pages() {
-        return ok(page.render(Page.findOwner(request().username()), pageForm));
+        return ok(page.render(Page.findOwner(request().username()), pageForm, Page.find.findUnique()));
     }
+
+
 }

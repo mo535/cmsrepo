@@ -44,14 +44,7 @@ padding-top: 100px;
         </form>
                     </div>
                 </div>
-                @if(flash.contains("success")) {
-                    <div class="alert alert-info col-lg-12 text-center" role="alert">
 
-                        <h4><p class="success">
-                            <strong>@flash.get("success")</strong>
-                        </p></h4>
-                    </div>
-                }
                 @if(loginForm.hasGlobalErrors) {
                     <div class="alert alert-danger col-lg-12 text-center" role="alert">
 

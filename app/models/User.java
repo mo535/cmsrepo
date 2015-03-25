@@ -48,6 +48,13 @@ public class User extends Model {
         return newMail;
     }
 
+    public static boolean updateActive(Long userId, boolean newisActive) {
+        User user = findEM.ref(userId);
+        user.isActive = newisActive;
+        user.update();
+        return newisActive;
+    }
+
     /**
      * Authenticate a User.
      */
@@ -102,8 +109,6 @@ public class User extends Model {
     public long getId() {
         return id;
     }
-
-
 
 
     @Id

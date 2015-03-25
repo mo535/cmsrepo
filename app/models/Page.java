@@ -14,6 +14,13 @@ public class Page extends Model{
         this.isActive = isActive;
     }
 
+    public static String rename(Long pageId, String newName) {
+        Page page = find.ref(pageId);
+        page.pageName = newName;
+        page.update();
+        return newName;
+    }
+
     public User getCreatedBy() {
         return createdBy;
     }
@@ -48,7 +55,6 @@ public class Page extends Model{
                 .eq("email", user)
                 .findList();
     }
-
 
     public static Model.Finder<Long,
             Page> find = new Model.Finder<>(Long.class, Page.class);

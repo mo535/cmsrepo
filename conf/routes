@@ -9,7 +9,6 @@ GET         /login                  controllers.Usercontroller.login()
 POST        /login                  controllers.Usercontroller.authenticate()
 GET         /logout                 controllers.Usercontroller.logout()
 GET         /settings               controllers.Application.settings
-#POST        /updateSettings        controllers.Settingscontroller.updateSettings()
 GET         /pages                  controllers.Pagecontroller.pages()
 POST        /pages                  controllers.Pagecontroller.createPage()
 #GET         /pagelist               controllers.Pagecontroller.listPages()
@@ -19,10 +18,13 @@ POST        /register               controllers.Usercontroller.registerValidatio
 POST        /search                 controllers.Application.search()
 GET         /search                 controllers.Application.searchFunction()
 GET         /contact                controllers.Application.contact()
+GET         /usersettings           controllers.Settingscontroller.userSettings()
 POST        /:user                  controllers.Settingscontroller.updateName(user: Long)
 POST        /newpass/:user          controllers.Settingscontroller.updatePass(user: Long)
-GET         /profile                controllers.Application.profile()
-GET         /usersettings           controllers.Settingscontroller.userSettings()
+POST        /disable/:user          controllers.Settingscontroller.disableAccount(user: Long)
+GET         /profile/:user          controllers.Application.profile(user: Long)
+GET         /myProfile              controllers.Application.myProfile()
+GET         /estates                controllers.Application.estates()
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file           controllers.Assets.at(path="/public", file)

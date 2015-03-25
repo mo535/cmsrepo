@@ -1,20 +1,20 @@
-@(settings_form: Form[models.User],pass_form:Form[models.User], user: User)
+@(settings_form: Form[models.User],pass_form:Form[models.User], dis_form:Form[models.User], user: User)
 
 @main("Settings") {
-    <div class="page-header text-center">
+    <div class="page-header text-center" xmlns="http://www.w3.org/1999/html">
     <h2>Settings</h2>
     </div>
     <div class="tabbable">
+
         <ul class="nav nav-tabs" id="myTab">
             <li class="active"><a href="#one" data-toggle="tab">Name</a></li>
-            <li><a href="#two" data-toggle="tab"><strong>Password</strong></a></li>
-            <li><a href="#twee" data-toggle="tab">Something more</a></li>
+            <li><a href="#two" data-toggle="tab">Password</a></li>
+            <li><a href="#twee" data-toggle="tab">Account</a></li>
         </ul>
         @helper.form(action = routes.Settingscontroller.updateName(user.getId)){
         <div class="tab-content">
+            <br />
             <div class="tab-pane active" id="one">
-
-
                 <form class="form-inline" role="form">
                     <div class="row-fluid">
                         <div class="form-group col-xs-4 col-lg-3">
@@ -36,10 +36,9 @@
                 </form>
                 <div class="row">
                     <h4>Current name: </h4>
-                    <strong> @user.firstName @user.lastName </strong>
+                    <strong>@user.firstName @user.lastName </strong>
                 </div>
             </div>
-
 
 
             <div class="tab-pane" id="two">
@@ -79,17 +78,41 @@
                 </div>
             </div>
 
-            <div class="tab-pane" id="twee">Some content</div>
-        </div>
+
+            <div class="tab-pane" id="twee">
+            @helper.form(action = routes.Settingscontroller.disableAccount(user.id)){
+                <form class="form-inline" role="form">
+                    <div class="row-fluid">
+                        <div class="form-group col-xs-4 col-lg-3">
+                            <label for="is_active">Make account active:
+                            <input type="checkbox" id="is_active" class="checkbox-inline" name="is_active"
+                            placeholder="Active" value="1" checked></label>
+                            <input type="hidden" name="is_active" id="inactive" value="0" />
+
+                            <br>
+                            <button type="submit" id="acbtn" class="btn btn-info">Submit changes</button>
+                        </div>
+                    </div>
+                </form>
+            }
+                <div class="well-sm">
+                    <strong>Account is: </strong>
+                    @if(user.isActive.equals(false)) {
+                        <p style="color: red"><strong> Disabled </strong></p>
+                    } else {
+                        <p style="color: forestgreen"><strong> Enabled </strong></p>
+                    }
+
+
+                </div>
+            </div>
+    </div>
     </div>
 
-    <script>
-    jQuery(document).ready(function ($) {
-    $('.nav-tabs a').click(function (e) {
-    e.preventDefault();
-    $(this).tab('show');
-    });
-    });
-    </script>
-
 }
+    <script>
+    $("[id='is_active']").bootstrapSwitch();
+    if(document.getElementById("inactive").checked){
+    document.getElementById('is_active').disabled = true;
+    }
+    </script>

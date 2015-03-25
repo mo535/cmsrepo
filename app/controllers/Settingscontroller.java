@@ -1,6 +1,7 @@
 package controllers;
 
 import models.User;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
@@ -12,6 +13,28 @@ public class Settingscontroller extends Controller {
     public static final DynamicForm dynForm = play.data.Form.form();
     public static Form<User> Form = new Form<>(User.class).bindFromRequest();
 
+    public static Result disableAccount(Long id){
+
+        Form<User> dis_form = new Form<>(User.class).bindFromRequest();
+        if (dis_form.hasGlobalErrors()) {
+            return badRequest(settings.render(dis_form, dis_form, dis_form,
+                    User.findByEmail(session().get("mail"))));
+        } else if (dis_form.field("is_active").value().equals("1")) {
+
+            User.updateActive(
+                    id, true);
+            return ok((settings.render(dis_form, dis_form, dis_form,
+                    User.findByEmail(session().get("mail")))));
+
+        }else {
+            User.updateActive(
+                    id, false);
+            return ok((settings.render(dis_form, dis_form, dis_form,
+                    User.findByEmail(session().get("mail")))));
+        }
+
+    }
+
     /**
      * Update user first and lastname
      * @param user = current signed in user
@@ -22,7 +45,7 @@ public class Settingscontroller extends Controller {
         Form<User> filled_form = new Form<>(User.class).bindFromRequest();
 
             if (dynForm.hasGlobalErrors()) {
-                return badRequest(settings.render(filled_form, filled_form,
+                return badRequest(settings.render(filled_form, filled_form, filled_form,
                         User.findByEmail(session().get("mail"))));
             } else if (!filled_form.field("firstName").value().equals("") &&
                     filled_form.field("lastName").value().equals("")) {
@@ -35,7 +58,7 @@ public class Settingscontroller extends Controller {
                 User.renameLast(
                         user, dynForm.bindFromRequest()
                                 .get("lastName"));
-                return ok(settings.render(filled_form, filled_form,
+                return ok(settings.render(filled_form, filled_form, filled_form,
                         User.findByEmail(session().get("mail"))));
 
             } else if (filled_form.field("lastName").value().equals("") &&
@@ -52,7 +75,7 @@ public class Settingscontroller extends Controller {
 
 
             }
-        return ok(settings.render(filled_form, filled_form,
+        return ok(settings.render(filled_form, filled_form, filled_form,
                 User.findByEmail(session().get("mail"))));
     }
 
@@ -79,7 +102,7 @@ public class Settingscontroller extends Controller {
             passForm.reject("Password fields cannot be empty!");
 
         } if (passForm.hasGlobalErrors()) {
-            return badRequest(settings.render(passForm, passForm,
+            return badRequest(settings.render(passForm, passForm, passForm,
                     User.findByEmail(session().get("mail"))));
 
         } else {
@@ -88,7 +111,7 @@ public class Settingscontroller extends Controller {
             session().put("password", passForm.field("confirm_password").value());
             flash("success", "Your password has been changed!");
             }
-            return ok(settings.render(passForm, passForm,
+            return ok(settings.render(passForm, passForm, passForm,
                     User.findByEmail(session().get("mail"))));
     }
 
@@ -97,7 +120,7 @@ public class Settingscontroller extends Controller {
      * @return ok
      */
     public static Result userSettings() {
-        return ok(settings.render(Form, Form,
+        return ok(settings.render(Form, Form, Form,
                 User.findByEmail(session().get("mail"))));
     }
 }
