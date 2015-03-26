@@ -9,7 +9,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import views.html.*;
 
-import java.util.List;
+import java.util.*;
 
 import static play.data.Form.form;
 
@@ -30,6 +30,7 @@ public class Application extends Controller {
         return ok(settings.render(form(User.class).bindFromRequest(), form(User.class).bindFromRequest(), form(User.class).bindFromRequest(), User.findByEmail(session().get("mail"))));
     }
 
+
     public static Result register() {
         return ok(register.render(form(User.class).bindFromRequest()));
     }
@@ -45,7 +46,7 @@ public class Application extends Controller {
     public static Result estates() {
         return ok(estates.render());
     }
-
+    @Security.Authenticated(Secured.class)
     public static Result profile(Long user){
 
 
@@ -63,6 +64,10 @@ public class Application extends Controller {
      */
     public static Result searchFunction() {
         List<User> users;
+        List<User> lastUsers;
+        List<User> mailUsers;
+        List<User> userList = new ArrayList<>();
+
         if (request().method().equals("GET")) {
             DynamicForm searchForm = form().bindFromRequest();
             if (searchForm.hasErrors()) {
@@ -72,8 +77,24 @@ public class Application extends Controller {
                         .eq("firstName",  searchForm.get("search"))
                         .findList();
 
+                lastUsers = User.find.where()
+                        .eq("lastName",  searchForm.get("search"))
+                        .findList();
+
+                mailUsers = User.find.where()
+                        .eq("email",  searchForm.get("search"))
+                        .findList();
+
+                users.removeAll(lastUsers);
+                users.removeAll(mailUsers);
+                lastUsers.removeAll(mailUsers);
+
+                userList.addAll(users);
+                userList.addAll(lastUsers);
+                userList.addAll(mailUsers);
+
                 Logger.error("new search: " + users.toString());
-                return ok(search.render(users));
+                return ok(search.render(userList));
             }
         }
         return ok(index.render(Page.all(), User.findAll()));

@@ -20,14 +20,14 @@
         }
         .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
         background-color:#ffffff;
-            color: dodgerblue;
+        color: dodgerblue;
         }
 
 
         body {
         padding-top: 20px;
         margin-bottom: 50px;
-            height: auto!important;
+        height: auto!important;
         }
         .help-inline  { color:#953333!important; }
         input:out-of-range { border:2px solid red; }
@@ -68,21 +68,16 @@
                                 placeholder="Search" name="search" id="search" >
                                 <div class="input-group-btn">
                                     <button class="btn btn-default" type="submit">
-                                    <i class="glyphicon glyphicon-search"></i>
-                                </button>
-                            </div>
+                                        <i class="glyphicon glyphicon-search"></i>
+                                    </button>
                                 </div>
-
-
-
-
-
+                            </div>
                         </form>
                     </div>
 
                     @if(session.get("mail")) {
                         <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/logout"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
+                            <li><a href="/logout"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <i class="glyphicon glyphicon-user"></i> <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
@@ -108,39 +103,39 @@
         </div>
 
         <div class="container">
-                @content
+            @content
             <br>
-                <nav class="navbar navbar-inverse navbar-fixed-bottom">
-                    <div class="container">
+            <nav class="navbar navbar-inverse navbar-fixed-bottom">
+                <div class="container">
 
-                <p class="pull-right"><a href="#"><i class="fa fa-angle-up"></i></a></p>
+                    <p class="pull-right"><a href="#"><i class="fa fa-angle-up"></i></a></p>
 
-                <p class="text-muted pull-left">© 2015 PREK AB <a href="http://www.prek.se">Prek.se</a></p>
+                    <p class="text-muted pull-left">© 2015 PREK AB <a href="http://www.prek.se">Prek.se</a></p>
 
-                        <p class="text-center">
+                    <p class="text-center">
 
                     @if(session.get("mail")) {
 
-                       <strong> Signed in as: <a href="/myProfile"> (@session.get("mail")) </a></strong>
+                        <strong> Signed in as: <a href="/myProfile"> (@session.get("mail")) </a></strong>
                     } else {
                         <Strong>Ej inloggad: <a href="register">Registrera konto</a></Strong>
 
                     }
-                        </p>
-                    </div>
-                </nav>
+                    </p>
+                </div>
+            </nav>
         </div>
             <!-- /.container -->
-        <!-- Bootstrap core JavaScript
+            <!-- Bootstrap core JavaScript
     ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
+            <!-- Placed at the end of the document so the pages load faster -->
         <script src="@routes.Assets.at("javascripts/jquery-2.1.3.min.js")"></script>
         <script src="@routes.Assets.at("javascripts/bootstrap.min.js")"></script>
         <script src="@routes.Assets.at("javascripts/bootstrap-switch.min.js")"></script>
         <script>
         $("#dLabel1").on('click', function(){
         console.log("FIRE");
-        var x = setTimeout('$("#search").focus()', 355);
+        var x = setTimeout('$("#search").focus()', 305);
         });
         </script>
     </body>

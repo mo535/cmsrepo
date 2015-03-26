@@ -4,14 +4,18 @@
     <div class="page-header text-center" xmlns="http://www.w3.org/1999/html">
     <h2>Settings</h2>
     </div>
+    <div class="row">
     <div class="tabbable">
-
+        <div class="panel with-nav-tabs panel-info">
+            <div class="panel-heading">
         <ul class="nav nav-tabs" id="myTab">
             <li class="active"><a href="#one" data-toggle="tab">Name</a></li>
             <li><a href="#two" data-toggle="tab">Password</a></li>
             <li><a href="#twee" data-toggle="tab">Account</a></li>
         </ul>
+                </div>
         @helper.form(action = routes.Settingscontroller.updateName(user.getId)){
+            <div class="panel-body">
         <div class="tab-content">
             <br />
             <div class="tab-pane active" id="one">
@@ -106,9 +110,10 @@
 
                 </div>
             </div>
+        </div>
     </div>
     </div>
-
+        </div>
 }
     <script>
     $("[id='is_active']").bootstrapSwitch();
@@ -116,3 +121,46 @@
     document.getElementById('is_active').disabled = true;
     }
     </script>
+
+    <style>
+    /*** PANEL INFO ***/
+    .with-nav-tabs.panel-info .nav-tabs > li > a,
+    .with-nav-tabs.panel-info .nav-tabs > li > a:hover,
+    .with-nav-tabs.panel-info .nav-tabs > li > a:focus {
+    color: #31708f;
+    }
+    .with-nav-tabs.panel-info .nav-tabs > .open > a,
+    .with-nav-tabs.panel-info .nav-tabs > .open > a:hover,
+    .with-nav-tabs.panel-info .nav-tabs > .open > a:focus,
+    .with-nav-tabs.panel-info .nav-tabs > li > a:hover,
+    .with-nav-tabs.panel-info .nav-tabs > li > a:focus {
+    color: #31708f;
+    background-color: #bce8f1;
+    border-color: transparent;
+    }
+    .with-nav-tabs.panel-info .nav-tabs > li.active > a,
+    .with-nav-tabs.panel-info .nav-tabs > li.active > a:hover,
+    .with-nav-tabs.panel-info .nav-tabs > li.active > a:focus {
+    color: #31708f;
+    background-color: #fff;
+    border-color: #bce8f1;
+    border-bottom-color: transparent;
+    }
+    .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu {
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    }
+    .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > li > a {
+    color: #31708f;
+    }
+    .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
+    .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
+    background-color: #bce8f1;
+    }
+    .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > .active > a,
+    .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
+    .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
+    color: #fff;
+    background-color: #31708f;
+    }
+    </style>

@@ -75,6 +75,10 @@ public class Page extends Model{
     @Column(name="createdby")
     public User createdBy;
 
+   /* @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
+    @Column(name="lastupdate")
+    public Date lastUpdate; */
+
     @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name="createdate")
     public Date createDate;

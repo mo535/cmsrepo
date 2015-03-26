@@ -2,14 +2,20 @@ package controllers;
 
 import models.Page;
 import models.User;
+import play.data.DynamicForm;
 import play.data.Form;
+import play.db.ebean.Model;
+import play.mvc.Content;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import views.html.page;
 
 public class Pagecontroller extends Controller {
-    private static Form<Page> pageForm = Form.form(Page.class);
+    private static Form<Page> Form = new Form<>(Page.class).bindFromRequest();
+
+    public static final DynamicForm dynForm = play.data.Form.form();
+
 
     /**
      * Validate page
@@ -24,7 +30,7 @@ public class Pagecontroller extends Controller {
                 filled_form.reject("Page name cannot be empty!");
             }
             if (filled_form.hasErrors()) {
-                return badRequest(page.render(Page.findOwner(session().get("mail")), filled_form,Page.find.findUnique()));
+                return badRequest(page.render(Page.findOwner(session().get("mail")), filled_form, filled_form));
             } else {
                 Page newPage = new Page(filled_form.get().pageName,
                         filled_form.get().isActive);
@@ -36,7 +42,7 @@ public class Pagecontroller extends Controller {
                 return redirect(routes.Pagecontroller.pages());
             }
         } else{
-            return redirect(routes.Application.index());
+            return redirect(routes.Pagecontroller.pages());
         }
     }
 
@@ -46,14 +52,23 @@ public class Pagecontroller extends Controller {
     }
 
     public static Result updateName(Long id) {
-        Page.rename(id, "");
-        return redirect(routes.Pagecontroller.pages());
+        Form<Page> editForm = new Form<>(Page.class).bindFromRequest();
+
+        if (dynForm.hasErrors()) {
+            return badRequest(page.render(Page.findOwner(session().get("mail")), editForm, editForm));
+        }else {
+            Page.rename(id, dynForm.bindFromRequest().get("newname"));
+            return redirect(routes.Pagecontroller.pages());
+        }
+
     }
 
+    /**
+     * Call page template
+     * @return page.scala.html
+     */
     @Security.Authenticated(Secured.class)
     public static Result pages() {
-        return ok(page.render(Page.findOwner(request().username()), pageForm, Page.find.findUnique()));
+        return ok(page.render(Page.findOwner(request().username()), Form, Form));
     }
-
-
 }
