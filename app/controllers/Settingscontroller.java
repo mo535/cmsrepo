@@ -19,10 +19,13 @@ public class Settingscontroller extends Controller {
         if (dis_form.hasGlobalErrors()) {
             return badRequest(settings.render(dis_form, dis_form, dis_form,
                     User.findByEmail(session().get("mail"))));
-        } else if (dis_form.field("is_active").value().equals("1")) {
+        } else if (dis_form.field("is_active").value().equals("1") && !dis_form.field("email").value().equals("")) {
 
             User.updateActive(
                     id, true);
+            User.updateMail(id, dynForm.bindFromRequest().get("email"));
+            session().put("mail", dis_form.field("email").value());
+            flash("success", "Ditt lösenord har ändrats");
             return ok((settings.render(dis_form, dis_form, dis_form,
                     User.findByEmail(session().get("mail")))));
 
@@ -32,56 +35,53 @@ public class Settingscontroller extends Controller {
             return ok((settings.render(dis_form, dis_form, dis_form,
                     User.findByEmail(session().get("mail")))));
         }
-
     }
 
     /**
-     * Update user first and lastname
-     * @param user = current signed in user
+     * Update users first and lastname
+     * @param user = id of current signed in user
      * @return new updated name
      */
     public static Result updateName(Long user) {
 
         Form<User> filled_form = new Form<>(User.class).bindFromRequest();
 
-            if (dynForm.hasGlobalErrors()) {
-                return badRequest(settings.render(filled_form, filled_form, filled_form,
-                        User.findByEmail(session().get("mail"))));
-            } else if (!filled_form.field("firstName").value().equals("") &&
-                    filled_form.field("lastName").value().equals("")) {
-                User.rename(
-                        user, dynForm.bindFromRequest().get("firstName")
-                );
-                return redirect(routes.Settingscontroller.userSettings());
-            } else if (!filled_form.field("lastName").value().equals("") &&
-                    filled_form.field("firstName").value().equals("")) {
-                User.renameLast(
-                        user, dynForm.bindFromRequest()
-                                .get("lastName"));
-                return ok(settings.render(filled_form, filled_form, filled_form,
-                        User.findByEmail(session().get("mail"))));
+        if (dynForm.hasGlobalErrors()) {
+            return badRequest(settings.render(filled_form, filled_form, filled_form,
+                    User.findByEmail(session().get("mail"))));
+        } else if (!filled_form.field("firstName").value().equals("") &&
+                filled_form.field("lastName").value().equals("")) {
+            User.rename(
+                    user, dynForm.bindFromRequest().get("firstName")
+            );
+            return redirect(routes.Settingscontroller.userSettings());
+        } else if (!filled_form.field("lastName").value().equals("") &&
+                filled_form.field("firstName").value().equals("")) {
+            User.renameLast(
+                    user, dynForm.bindFromRequest()
+                            .get("lastName"));
+            return ok(settings.render(filled_form, filled_form, filled_form,
+                    User.findByEmail(session().get("mail"))));
 
-            } else if (filled_form.field("lastName").value().equals("") &&
-                    filled_form.field("firstName").value().equals("")) {
-                filled_form.reject("No value entered!");
+        } else if (filled_form.field("lastName").value().equals("") &&
+                filled_form.field("firstName").value().equals("")) {
+            filled_form.reject("Tomma fält!");
 
-            } else  {
-                User.rename(
-                        user, dynForm.bindFromRequest()
-                                .get("firstName"));
-                User.renameLast(
-                        user, dynForm.bindFromRequest()
-                                .get("lastName"));
-
-
-            }
+        } else  {
+            User.rename(
+                    user, dynForm.bindFromRequest()
+                            .get("firstName"));
+            User.renameLast(
+                    user, dynForm.bindFromRequest()
+                            .get("lastName"));
+        }
         return ok(settings.render(filled_form, filled_form, filled_form,
                 User.findByEmail(session().get("mail"))));
     }
 
     /**
      * Update user password + validate form.
-     * @param user Long id
+     * @param user id of current signed in user
      * @return new password
      */
     public static Result updatePass(Long user) {
@@ -89,30 +89,30 @@ public class Settingscontroller extends Controller {
 
 
         if (!passForm.field("current_password").valueOr("")
-                    .equals(session().get("password")) && !passForm.field("password").value().equals("")) {
-                passForm.reject("Check your current password again!");
+                .equals(session().get("password")) && !passForm.field("password").value().equals("")) {
+            passForm.reject("Kontrollera ditt nuvarande lösenord!");
 
         } if (!passForm.field("password").value()
-                    .equals(passForm.field("confirm_password").value())){
-                    passForm.reject("Passwords does not match!");
+                .equals(passForm.field("confirm_password").value())){
+            passForm.reject("Lösenorden matchar inte varandra!");
 
         } if (passForm.field("password").valueOr("").isEmpty()
                 || passForm.field("current_password").valueOr("").isEmpty()
                 || passForm.field("confirm_password").valueOr("").isEmpty()){
-            passForm.reject("Password fields cannot be empty!");
+            passForm.reject("Lösenord fält får inte vara tomma");
 
         } if (passForm.hasGlobalErrors()) {
             return badRequest(settings.render(passForm, passForm, passForm,
                     User.findByEmail(session().get("mail"))));
 
         } else {
-                    User.updatePass(
-                            user, dynForm.bindFromRequest().get("password"));
+            User.updatePass(
+                    user, dynForm.bindFromRequest().get("password"));
             session().put("password", passForm.field("confirm_password").value());
-            flash("success", "Your password has been changed!");
-            }
-            return ok(settings.render(passForm, passForm, passForm,
-                    User.findByEmail(session().get("mail"))));
+            flash("success", "Ditt lösenord har ändrats");
+        }
+        return ok(settings.render(passForm, passForm, passForm,
+                User.findByEmail(session().get("mail"))));
     }
 
     /**

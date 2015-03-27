@@ -17,6 +17,7 @@ public class Page extends Model{
     public static String rename(Long pageId, String newName) {
         Page page = find.ref(pageId);
         page.pageName = newName;
+        page.setLastUpdate(new Date());
         page.update();
         return newName;
     }
@@ -63,6 +64,18 @@ public class Page extends Model{
         return id;
     }
 
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    /**
+     * add date of last update
+     * @param lastUpdate = page last updated
+     */
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
     @Id
     @GeneratedValue
     public Long id;
@@ -75,9 +88,9 @@ public class Page extends Model{
     @Column(name="createdby")
     public User createdBy;
 
-   /* @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
+    @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name="lastupdate")
-    public Date lastUpdate; */
+    public Date lastUpdate;
 
     @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name="createdate")

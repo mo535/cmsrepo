@@ -1,61 +1,67 @@
 @(pages: List[models.Page], pageForm: Form[models.Page], editForm: Form[models.Page])
 @import helper._
-@main("Page") {
+@main("Mina sidor") {
     <div class="page-header text-center">
         <h2>Mina sidor</h2>
     </div>
 
     @form(routes.Pagecontroller.createPage()) {
-        <div class="row">
-            <div class="col-lg-6">
-                <div id="page">
-                    <h4>Create new page</h4>
+
+        <div class="col-lg-5">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4>Skapa en sida</h4>
+                </div>
+                <div class="panel-body">
                     <form role="form" method="POST">
                         <div class="form-group">
                             <label> <input type="text" class="form-control" required="" name="pageName"
-                            placeholder="Page name" value="@pageForm("pageName").value"></label>
+                            placeholder="Skriv ett namn" value="@pageForm("pageName").value"></label>
 
                             @if(pageForm.hasGlobalErrors) {
                                 <h4><strong><p class="error">@pageForm.globalError.message</p></strong></h4>
                             }
-                            <div class="checkbox">
-                                <label><input type="checkbox" name="isActive" value="1"><strong>Publish page</strong>
-                                </label>
-                            </div>
-                            <button type="submit" class="btn btn-info">Create page</button>
+                            <label for="is_active">Aktivera/Inaktivera konto: <br>
+                                <input type="checkbox" id="is_active" class="checkbox-inline" name="isActive"
+                                placeholder="Active" value="1" checked> <br>
+                                <input type="hidden" name="isActive" id="inactive" value="0" /></label>
+                            <br>
+                            <button type="submit" class="btn btn-info">Skapa sida</button>
                         </div>
                     </form>
                 </div>
             </div>
-            }
-    <div class="col-lg-6">
+        </div>
+    }
+
+    <div class="col-lg-7">
         <div class="panel panel-info">
             <div class="panel-heading">
 
             @if(pages.size > 0) {
-                <h4>You have: @pages.size page(s)</h4>
+                <h4>Du har: @pages.size sidor</h4>
             </div>
 
 
             @for(page <- pages) {
                 <li class="list-group-item">
-                    <strong>Name: </strong>
+                    <strong>Namn: </strong>
                     @page.pageName
-                    -
-                    <strong> Active: </strong>
-                    @page.isActive
-                    -
-                    <strong>Created: </strong>
+                    |
+                    <strong> Status: </strong>
+                    @if(page.isActive.equals(false)) {
+                        Inaktiv
+                    } else {
+                        Aktiv
+                    }
+                    |
+                    <strong>Skapad: </strong>
                     @page.createDate.format("YYYY-MM-dd")
-
-
-
-
 
                     <div class="popover-markup">
                         <button type="button"  id="popover" name="popover" class="trigger btn btn-primary btn-xs">
-                            <span class="glyphicon glyphicon-pencil"></span> Edit</button>
-                        <div class="head hide">Change name</div>
+                            <span class="glyphicon glyphicon-pencil"></span> Ändra</button>
+                        <div class="head hide">Ändra namn</div>
                         <div class="content hide">
 
                         @form(routes.Pagecontroller.updateName(page.id)) {
@@ -63,29 +69,30 @@
                                 <input name="newname" id="newname" required="" value="@editForm("newname").value"
                                 type="text"
                                 class="form-control"
-                                placeholder="Type something…">
+                                placeholder="Skriv något...">
                             </div>
-                            <button type="submit" id="edit" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-ok-sign"></span>Ok</button>
-                        }
 
+                            <button type="submit" id="edit" class="btn btn-primary btn-block btn-sm">
+                                <span class="glyphicon glyphicon-ok-sign"></span> Ok</button>
+                        }
                         </div>
+
                         <div class="pull-right">
                         @form(routes.Pagecontroller.deletePage(page.id)) {
                             <button type="submit" value="Delete" class="btn btn-danger btn-xs">
-                                <span class="glyphicon glyphicon-trash"></span> Delete</button>
+                                <span class="glyphicon glyphicon-trash"></span> Radera</button>
                         }
-                    </div>
+                        </div>
                     </div>
 
                 </li>
             }
             } else {
-            <h3>You have no page(s)</h3>
+            <h3>Du har inga sidor</h3>
         }
         </div>
     </div>
-</div>
+
 
 }
 <script>
@@ -105,4 +112,11 @@ content: function () {
 return $(this).parent().find('.content').html();
 }
 });
+</script>
+
+<script>
+$("[id='is_active']").bootstrapSwitch({size: 'small'});
+if(document.getElementById("inactive").checked){
+document.getElementById('is_active').disabled = true;
+}
 </script>

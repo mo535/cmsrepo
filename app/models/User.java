@@ -1,11 +1,9 @@
 package models;
 
-
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import javax.persistence.*;
-import javax.validation.Constraint;
 import java.util.Date;
 import java.util.List;
 
@@ -40,9 +38,16 @@ public class User extends Model {
         return newLastName;
     }
 
-    public static String updatePass(Long userId, String newMail) {
+    public static String updatePass(Long userId, String newPass) {
         User user = findEM.ref(userId);
-        user.password = newMail;
+        user.password = newPass;
+        user.update();
+        return newPass;
+    }
+
+    public static String updateMail(Long userId, String newMail) {
+        User user = findEM.ref(userId);
+        user.email = newMail;
         user.update();
         return newMail;
     }

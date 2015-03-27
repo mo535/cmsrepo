@@ -4,8 +4,6 @@ import models.Page;
 import models.User;
 import play.data.DynamicForm;
 import play.data.Form;
-import play.db.ebean.Model;
-import play.mvc.Content;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -27,7 +25,7 @@ public class Pagecontroller extends Controller {
             Form<Page> filled_form = new Form<>(Page.class).bindFromRequest();
 
             if (filled_form.field("pageName").value().equals("") || filled_form.field("pageName").value().isEmpty()) {
-                filled_form.reject("Page name cannot be empty!");
+                filled_form.reject("Namnet får inte vara tomt!");
             }
             if (filled_form.hasErrors()) {
                 return badRequest(page.render(Page.findOwner(session().get("mail")), filled_form, filled_form));
@@ -58,6 +56,7 @@ public class Pagecontroller extends Controller {
             return badRequest(page.render(Page.findOwner(session().get("mail")), editForm, editForm));
         }else {
             Page.rename(id, dynForm.bindFromRequest().get("newname"));
+
             return redirect(routes.Pagecontroller.pages());
         }
 

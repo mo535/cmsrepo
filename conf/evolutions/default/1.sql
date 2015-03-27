@@ -8,6 +8,7 @@ create table page (
   is_active                 tinyint(1) default 0,
   page_name                 varchar(255),
   created_by_id             bigint,
+  lastupdate                datetime,
   createdate                datetime,
   constraint pk_page primary key (id))
 ;

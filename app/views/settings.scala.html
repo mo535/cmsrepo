@@ -1,17 +1,17 @@
 @(settings_form: Form[models.User],pass_form:Form[models.User], dis_form:Form[models.User], user: User)
 
-@main("Settings") {
+@main("Inställningar") {
     <div class="page-header text-center" xmlns="http://www.w3.org/1999/html">
-    <h2>Settings</h2>
+    <h2>Inställningar</h2>
     </div>
     <div class="row">
     <div class="tabbable">
         <div class="panel with-nav-tabs panel-info">
             <div class="panel-heading">
         <ul class="nav nav-tabs" id="myTab">
-            <li class="active"><a href="#one" data-toggle="tab">Name</a></li>
-            <li><a href="#two" data-toggle="tab">Password</a></li>
-            <li><a href="#twee" data-toggle="tab">Account</a></li>
+            <li class="active"><a href="#one" data-toggle="tab">Namn</a></li>
+            <li><a href="#two" data-toggle="tab">Lösenord</a></li>
+            <li><a href="#twee" data-toggle="tab">Konto</a></li>
         </ul>
                 </div>
         @helper.form(action = routes.Settingscontroller.updateName(user.getId)){
@@ -22,14 +22,14 @@
                 <form class="form-inline" role="form">
                     <div class="row-fluid">
                         <div class="form-group col-xs-4 col-lg-3">
-                            <label for="firstName">Firstname:</label>
+                            <label for="firstName">Förnamn:</label>
                             <input type="text" class="form-control" name="firstName"
-                            placeholder="Firstname" value="@settings_form("firstName").value">
+                            placeholder="Nytt förnamn" value="@settings_form("firstName").value">
 
-                            <label for="lastName">Lastname:</label>
+                            <label for="lastName">Efternamn:</label>
                             <input type="text" class="form-control" name="lastName"
-                            placeholder="Lastname" value="@settings_form("lastName").value"><br>
-                            <button type="submit" id="namebtn" class="btn btn-info">Submit changes</button>
+                            placeholder="Nytt efternamn" value="@settings_form("lastName").value"><br>
+                            <button type="submit" id="namebtn" class="btn btn-info">Ändra</button>
                             }
 
         @if(settings_form.hasGlobalErrors) {
@@ -39,7 +39,7 @@
                     </div>
                 </form>
                 <div class="row">
-                    <h4>Current name: </h4>
+                    <h4>Ditt nuvarande namn: </h4>
                     <strong>@user.firstName @user.lastName </strong>
                 </div>
             </div>
@@ -50,19 +50,19 @@
                 <form class="form-inline" role="form">
                     <div class="row-fluid">
                         <div class="form-group col-xs-4 col-lg-3">
-                            <label for="current_password">Current Password:</label>
+                            <label for="current_password">Nuvarande lösenord:</label>
                             <input type="password" class="form-control" name="current_password"
-                            placeholder="Current Password" value="@pass_form("password").value">
+                            placeholder="Nuvarande lösenord" value="@pass_form("password").value">
 
-                                <label for="password">Password:</label>
+                                <label for="password">Lösenord:</label>
                                 <input type="password" class="form-control" name="password"
-                                placeholder="Password" value="@pass_form("password").value">
+                                placeholder="Nytt lösenord" value="@pass_form("password").value">
 
-                            <label for="confirm_email">Confirm Password:</label>
+                            <label for="confirm_email">Bekräfta lösenord:</label>
                             <input type="password" class="form-control" name="confirm_password"
-                            placeholder="Confirm Password" value="@pass_form("password").value">
+                            placeholder="Bekräfta nytt lösenord" value="@pass_form("password").value">
                                 <br>
-                                <button type="submit" id="passbtn" class="btn btn-info">Submit changes</button>
+                                <button type="submit" id="passbtn" class="btn btn-info">Ändra</button>
                             }
                 @if(pass_form.hasGlobalErrors) {
                     <h4><strong><p class="error">@pass_form.globalError.message</p></strong></h4>
@@ -77,7 +77,7 @@
                 </form>
 
                 <div class="row">
-                    <h4>Current pw: </h4>
+                    <h4>Nuvarande lösenord: </h4>
                     <strong> @user.password </strong>
                 </div>
             </div>
@@ -88,31 +88,36 @@
                 <form class="form-inline" role="form">
                     <div class="row-fluid">
                         <div class="form-group col-xs-4 col-lg-3">
-                            <label for="is_active">Make account active:
+                            <label for="email">Ny Epost-adress:</label>
+                            <input type="email" class="form-control" name="email"
+                            placeholder="Byt Epost" value="@dis_form("email").value">
+
+                            <label for="is_active">Aktivera/Inaktivera konto:
                             <input type="checkbox" id="is_active" class="checkbox-inline" name="is_active"
-                            placeholder="Active" value="1" checked></label>
-                            <input type="hidden" name="is_active" id="inactive" value="0" />
+                            placeholder="Active" value="1" checked> <br>
+                            <input type="hidden" name="is_active" id="inactive" value="0" /></label>
 
                             <br>
-                            <button type="submit" id="acbtn" class="btn btn-info">Submit changes</button>
+                            <button type="submit" id="acbtn" class="btn btn-info">Ändra</button>
                         </div>
                     </div>
                 </form>
             }
                 <div class="well-sm">
-                    <strong>Account is: </strong>
+                    <strong>Nuvarande Epost: </strong> <br>
+                    @user.email <br>
+                    <strong>Ditt konto är: </strong>
                     @if(user.isActive.equals(false)) {
-                        <p style="color: red"><strong> Disabled </strong></p>
+                        <p style="color: red"><strong> Inaktiverat </strong></p>
                     } else {
-                        <p style="color: forestgreen"><strong> Enabled </strong></p>
+                        <p style="color: forestgreen"><strong> Aktiverat </strong></p>
                     }
-
-
                 </div>
             </div>
         </div>
     </div>
     </div>
+        </div>
         </div>
 }
     <script>
@@ -122,54 +127,3 @@
     }
     </script>
 
-    <style type="text/css">
-    .panel.with-nav-tabs .panel-heading{
-    padding: 5px 5px 0 5px;
-    }
-    .panel.with-nav-tabs .nav-tabs{
-    border-bottom: none;
-    }
-    .panel.with-nav-tabs .nav-justified{
-    margin-bottom: -1px;
-    }
-    /*** PANEL INFO ***/
-    .with-nav-tabs.panel-info .nav-tabs > li > a,
-    .with-nav-tabs.panel-info .nav-tabs > li > a:hover,
-    .with-nav-tabs.panel-info .nav-tabs > li > a:focus {
-    color: #31708f;
-    }
-    .with-nav-tabs.panel-info .nav-tabs > .open > a,
-    .with-nav-tabs.panel-info .nav-tabs > .open > a:hover,
-    .with-nav-tabs.panel-info .nav-tabs > .open > a:focus,
-    .with-nav-tabs.panel-info .nav-tabs > li > a:hover,
-    .with-nav-tabs.panel-info .nav-tabs > li > a:focus {
-    color: #31708f;
-    background-color: #bce8f1;
-    border-color: transparent;
-    }
-    .with-nav-tabs.panel-info .nav-tabs > li.active > a,
-    .with-nav-tabs.panel-info .nav-tabs > li.active > a:hover,
-    .with-nav-tabs.panel-info .nav-tabs > li.active > a:focus {
-    color: #31708f;
-    background-color: #fff;
-    border-color: #bce8f1;
-    border-bottom-color: transparent;
-    }
-    .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu {
-    background-color: #d9edf7;
-    border-color: #bce8f1;
-    }
-    .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > li > a {
-    color: #31708f;
-    }
-    .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
-    .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
-    background-color: #bce8f1;
-    }
-    .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > .active > a,
-    .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
-    .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
-    color: #fff;
-    background-color: #31708f;
-    }
-    </style>

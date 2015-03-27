@@ -4,7 +4,6 @@ import models.User;
 import play.Logger;
 import play.data.Form;
 import play.data.validation.Constraints;
-import play.data.validation.ValidationError;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.login;
@@ -21,7 +20,7 @@ public class Usercontroller extends Controller {
 
     public static Result logout() {
         session().clear();
-        flash("success", "You've been logged out");
+        flash("success", "Du har blivit utloggad!");
         return redirect(routes.Usercontroller.login());
     }
 
@@ -30,38 +29,38 @@ public class Usercontroller extends Controller {
      * @return info or new user
      */
     public static Result registerValidation() {
-            Form<User> regForm = form(User.class).bindFromRequest();
+        Form<User> regForm = form(User.class).bindFromRequest();
 
         if (regForm.field("email").valueOr("").isEmpty() ||
                 regForm.field("confirm_email").valueOr("").isEmpty()) {
-            regForm.reject("Email field cannot be empty");
+            regForm.reject("Epost fält får inte vara tomma");
         }
-            if (!regForm.field("email").valueOr("").equals
-                    (regForm.field("confirm_email").value())) {
-                regForm.reject("Emails don't match");
-            }
+        if (!regForm.field("email").valueOr("").equals
+                (regForm.field("confirm_email").value())) {
+            regForm.reject("Epost adresserna matchar inte");
+        }
 
         if(regForm.field("password").valueOr("").isEmpty() ||
                 regForm.field("confirm_password").valueOr("").isEmpty()) {
-            regForm.reject("Password field cannot be empty");
+            regForm.reject("Lösenord fält får inte vara tomma");
         }
-            if (!regForm.field("password").value().equals(regForm.field("confirm_password").value())) {
-                regForm.reject("Passwords don't match");
-            }
+        if (!regForm.field("password").value().equals(regForm.field("confirm_password").value())) {
+            regForm.reject("Lösenord matchar inte");
+        }
         if (regForm.hasGlobalErrors()) {
-                return badRequest(register.render(regForm));
-            } else {
-                User newUser = new User(regForm.get().firstName,
-                        regForm.get().lastName,
-                        regForm.get().email,
-                        regForm.get().password,
-                        regForm.get().isActive);
+            return badRequest(register.render(regForm));
+        } else {
+            User newUser = new User(regForm.get().firstName,
+                    regForm.get().lastName,
+                    regForm.get().email,
+                    regForm.get().password,
+                    regForm.get().isActive);
 
-                Logger.error("new user: " + newUser.toString());
-                newUser.save();
-                flash("success", "User created, you can now sign in!");
-                return ok(login.render(form(Login.class).bindFromRequest()));
-            }
+            Logger.error("new user: " + newUser.toString());
+            newUser.save();
+            flash("success", "Användare skapad, du kan nu testa logga in!");
+            return ok(login.render(form(Login.class).bindFromRequest()));
+        }
     }
     /** Loginform validate login
      *
@@ -73,7 +72,7 @@ public class Usercontroller extends Controller {
 
         if(loginForm.field("mail").value().equals("") ||
                 loginForm.field("password").value().equals("")) {
-                loginForm.reject("All the fields must be filled in!");
+            loginForm.reject("Alla fält måste fyllas i korrekt!");
         }
 
         if (loginForm.hasErrors()) {
@@ -98,7 +97,7 @@ public class Usercontroller extends Controller {
 
         public String validate() {
             if (User.authenticate(mail, password) == null) {
-                return "Oh no! Wrong combination of email/password!";
+                return "Åh nej! Fel kombination av Epost/Lösenord!";
             }
             return null;
         }

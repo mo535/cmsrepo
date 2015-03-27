@@ -59,7 +59,7 @@ public class Application extends Controller {
     }
 
     /**
-     * Search user by firstname
+     * Search user by firstname, lastname and email.
      * @return User info
      */
     public static Result searchFunction() {

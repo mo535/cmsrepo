@@ -1,10 +1,11 @@
 @(users: List[models.User])
 
-@main("Search") {
+@main("Sök användare") {
 <div class="page-header text-center">
 
     @if(users.isEmpty) {
-        <h3>No users found</h3>
+        <h3>No users found<br>
+            <small><strong>You can search users with Firstname, Lastname, and Email!</strong></small></h3>
     } else {
         <h3>Found: @users.size </h3>
 </div>

@@ -1,5 +1,5 @@
 @(regForm: Form[User])
-@main("Register") {
+@main("Registrera konto") {
     <style>
     body {
     padding-top: 100px;
@@ -13,7 +13,7 @@
             <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-2 col-md-offset-2">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="text-center">Please sign up</h3>
+                        <h3 class="text-center">Registrera ett konto</h3>
                     </div>
                     <div class="panel-body">
                         <form role="form">
@@ -23,7 +23,7 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                                         <input type="text" class="form-control"  name="firstName"
-                                        placeholder="Firstname" value="@regForm("firstName").value">
+                                        placeholder="Förnamn" value="@regForm("firstName").value">
                                     </div>
                                 </div>
                                     </div>
@@ -32,7 +32,7 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                                         <input type="text" class="form-control" name="lastName"
-                                        placeholder="Lastname" value="@regForm("lastName").value">
+                                        placeholder="Efternamn" value="@regForm("lastName").value">
                                         </div>
                                     </div>
                                 </div>
@@ -43,9 +43,9 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
                                         <input type="email" class="form-control" name="email"
-                                        placeholder="Email" value="@regForm("email").value">
+                                        placeholder="Epost" value="@regForm("email").value">
                                     </div>
-                                        <p class="help-block" style="color: red">*required field.</p>
+                                        <p class="help-block" style="color: red">* Obligatoriskt fält</p>
                                 </div>
                                     </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
@@ -53,7 +53,7 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
                                         <input type="email" class="form-control" name="confirm_email"
-                                        placeholder="Confirm Email" value="@regForm("confirm_email").value">
+                                        placeholder="Bekräfta epost" value="@regForm("confirm_email").value">
                                         </div>
                                     </div>
                                 </div>
@@ -65,9 +65,9 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
                                         <input type="password" class="form-control" name="password"
-                                        placeholder="Password" value="@regForm("password").value">
+                                        placeholder="Lösenord" value="@regForm("password").value">
                                     </div>
-                                        <p class="help-block" style="color: red">*required field</p>
+                                        <p class="help-block" style="color: red">* Obligatoriskt fält</p>
                                     </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
@@ -75,12 +75,12 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
                                         <input type="password" class="form-control" name="confirm_password"
-                                        placeholder="Confirm Password" value="@regForm("confirm_password").value">
+                                        placeholder="Bekräfta lösenord" value="@regForm("confirm_password").value">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit"  class="btn btn-info btn-block">Create account</button>
+                            <button type="submit"  class="btn btn-info btn-block">Skapa konto</button>
                         </form>
                     </div>
                 </div>
