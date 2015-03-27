@@ -13,28 +13,46 @@ public class Settingscontroller extends Controller {
     public static final DynamicForm dynForm = play.data.Form.form();
     public static Form<User> Form = new Form<>(User.class).bindFromRequest();
 
-    public static Result disableAccount(Long id){
+    /**
+     * Update user account active/inactive, and change user email adress.
+     * @param id current user
+     * @return new status on active or new updated email(or both)
+     */
+    public static Result changeAccount(Long id){
 
         Form<User> dis_form = new Form<>(User.class).bindFromRequest();
         if (dis_form.hasGlobalErrors()) {
             return badRequest(settings.render(dis_form, dis_form, dis_form,
                     User.findByEmail(session().get("mail"))));
-        } else if (dis_form.field("is_active").value().equals("1") && dis_form.field("email").value().equals("")) {
-
+        } else if (dis_form.field("is_active").value().equals("1") &&
+                dis_form.field("email").value().equals("")) {
             User.updateActive(
                     id, true);
             return ok((settings.render(dis_form, dis_form, dis_form,
                     User.findByEmail(session().get("mail")))));
 
-        }else if(!dis_form.field("email").value().equals("")){
+        }else if (dis_form.field("email").value().equals("") &&
+                dis_form.field("is_active").value().equals("0")){
+            User.updateActive(
+                    id, false);
+            return ok((settings.render(dis_form, dis_form, dis_form,
+                    User.findByEmail(session().get("mail")))));
+
+        } else if (!dis_form.field("email").value().equals("") &&
+                dis_form.field("is_active").value().equals("1")){
+            User.updateActive(id, true);
             User.updateMail(id, dynForm.bindFromRequest().get("email"));
+
             session().put("mail", dis_form.field("email").value());
-            flash("success", "Ditt lösenord har ändrats");
+            flash("success", "Din epost har ändrats");
             return ok((settings.render(dis_form, dis_form, dis_form,
                     User.findByEmail(session().get("mail")))));
         }else {
-            User.updateActive(
-                    id, false);
+            User.updateActive(id, false);
+            User.updateMail(id, dynForm.bindFromRequest().get("email"));
+
+            session().put("mail", dis_form.field("email").value());
+            flash("success", "Din epost har ändrats");
             return ok((settings.render(dis_form, dis_form, dis_form,
                     User.findByEmail(session().get("mail")))));
         }

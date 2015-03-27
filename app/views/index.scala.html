@@ -1,4 +1,4 @@
-@(pages: List[Page], users: List[User])
+@(pages: List[Page])
 
 @main("Start") {
     <div class="page-header text-center">
@@ -54,7 +54,13 @@
     <div class="col-lg-3">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <p class="text-center"><strong>@pages.size Sidor</strong></p>
+                <p class="text-center">
+                @if(pages.size > 0) {
+                    <strong> @pages.size Sidor</strong>
+                } else{
+                <strong>Inga sidor tillgängliga</strong>
+            }</p>
+
             </div>
 
             @for(page <- pages) {

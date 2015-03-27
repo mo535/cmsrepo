@@ -22,7 +22,7 @@ public class Application extends Controller {
      */
     @Security.Authenticated(Secured.class)
     public static Result index() {
-        return ok(index.render(Page.all(), User.findEM.all()));
+        return ok(index.render(Page.all()));
     }
 
     @Security.Authenticated(Secured.class)
@@ -36,7 +36,7 @@ public class Application extends Controller {
     }
 
     public static Result search() {
-        return ok(index.render(Page.all(), User.findAll()));
+        return ok(search.render(User.findAll()));
     }
 
     public static Result contact() {
@@ -48,14 +48,11 @@ public class Application extends Controller {
     }
     @Security.Authenticated(Secured.class)
     public static Result profile(Long user){
-
-
-
-        return ok(profile.render(User.findEM.byId(user)));
+        return ok(profile.render(User.findEM.byId(user), Page.findPpage(user)));
     }
 
     public static Result myProfile(){
-        return ok(profile.render(User.findByEmail(session().get("mail"))));
+        return ok(profile.render(User.findByEmail(session().get("mail")), Page.findOwner(session().get("mail"))));
     }
 
     /**
@@ -97,6 +94,6 @@ public class Application extends Controller {
                 return ok(search.render(userList));
             }
         }
-        return ok(index.render(Page.all(), User.findAll()));
+        return ok(index.render(Page.all()));
     }
 }

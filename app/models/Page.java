@@ -57,6 +57,12 @@ public class Page extends Model{
                 .findList();
     }
 
+    public static List<Page> findPpage(Long user) {
+        return find.fetch("createdBy").where()
+                .eq("id", user)
+                .findList();
+    }
+
     public static Model.Finder<Long,
             Page> find = new Model.Finder<>(Long.class, Page.class);
 

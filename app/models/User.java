@@ -102,6 +102,12 @@ public class User extends Model {
         return find.where().eq("firstName", firstName).findUnique();
     }
 
+    public static List<User> findPage(Long user) {
+        return find.fetch("createdBy").where()
+                .eq("id", user)
+                .findList();
+    }
+
     /**
      * Save user with registration date
      */

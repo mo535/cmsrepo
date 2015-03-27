@@ -1,47 +1,46 @@
 @(users: List[models.User])
 
-@main("Sök användare") {
-<div class="page-header text-center">
+    @main("Sök användare") {
+        <div class="page-header text-center">
 
-    @if(users.isEmpty) {
-        <h3>No users found<br>
-            <small><strong>You can search users with Firstname, Lastname, and Email!</strong></small></h3>
-    } else {
-        <h3>Found: @users.size </h3>
-</div>
+        @if(users.isEmpty) {
+            <h3>No users found<br>
+                <small><strong>You can search users with Firstname, Lastname, and Email!</strong></small></h3>
+        } else {
+            <h3>Found: @users.size </h3>
+        </div>
 
 
-<div class="well">
+        <div class="well">
 
 
             <div class="table-responsive">
-            <table class="table table-bordred table-striped" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>Firstname:</th>
-                        <th>Lastname:</th>
-                        <th>Email:</th>
-                        <th>Profile:</th>
-                    </tr>
+                <table class="table table-bordred table-striped" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Firstname:</th>
+                            <th>Lastname:</th>
+                            <th>Email:</th>
+                            <th>Profile:</th>
+                        </tr>
 
-                </thead>
-                <tbody>
-                @for(user <- users) {
-                    <tr>
-                        <td>@user.firstName.toUpperCase</td>
-                        <td>@user.lastName.toUpperCase</td>
-                        <td>@user.email</td>
-                        <td><a href="@routes.Application.profile(user.id)">See profile</a> </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
-                </div>
+                    </thead>
+                    <tbody>
+                    @for(user <- users) {
+                        <tr>
+                            <td>@user.firstName.toUpperCase</td>
+                            <td>@user.lastName.toUpperCase</td>
+                            <td>@user.email</td>
+                            <td><a href="@routes.Application.profile(user.id)">See profile</a> </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            }
+        </div>
 
     }
-</div>
-
-}
 
 
 

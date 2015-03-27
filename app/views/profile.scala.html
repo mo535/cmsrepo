@@ -1,4 +1,4 @@
-@(user: User)
+@(user: User, pages: List[models.Page])
 @main("Min Profil"){
     <div class="page-header text-center"><h2>Min profil</h2>
     <div class="container">
@@ -21,7 +21,12 @@
                         <center>
                             <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
                             <h3 class="media-heading">@user.firstName @user.lastName <small></small></h3>
-                            <span><strong>Pages:  </strong></span>
+                            <span><strong>Mina sidor:
+
+                                @for(page <- pages) {
+                                    @page.pageName |
+                                }
+                            </strong></span>
                             <span class="label label-info"></span>
                         </center>
                         <hr>
